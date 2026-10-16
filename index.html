@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MashupSquad - Gaming Tournaments</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #151c2c;
+            --accent: #f59e0b;
+            --text: #ffffff;
+            --text-dim: #94a3b8;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        header {
+            width: 100%;
+            background: #0f172a;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 2px solid var(--accent);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2);
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .container {
+            width: 90%;
+            max-width: 500px;
+            margin: 30px auto;
+        }
+        .card {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+        .card h2 {
+            margin-top: 0;
+            text-align: center;
+            color: var(--text);
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            background-color: #0b0f19;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            color: #fff;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--accent);
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #d97706;
+        }
+        #status {
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>MashupSquad</h1>
+        <p style="margin: 5px 0 0; color: var(--text-dim);">Official Gaming Tournaments Hub</p>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>Tournament Pre-Registration</h2>
+            <form id="registrationForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="gameSelect">Select Game</label>
+                    <select id="gameSelect" required>
+                        <option value="Free Fire">Free Fire</option>
+                        <option value="PUBG Mobile">PUBG Mobile</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="gameId">In-Game ID / Character ID</label>
+                    <input type="text" id="gameId" placeholder="e.g. 512345678" required>
+                </div>
+                <div class="form-group">
+                    <label for="whatsapp">WhatsApp Number</label>
+                    <input type="tel" id="whatsapp" placeholder="03001234567" required>
+                </div>
+                <button type="submit" id="submitBtn">Register Now</button>
+            </form>
+            <div id="status"></div>
+        </div>
+    </div>
+
+    <!-- Firebase Scripts -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Firebase Config Keys
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const form = document.getElementById('registrationForm');
+        const statusDiv = document.getElementById('status');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            statusDiv.style.color = '#f59e0b';
+            statusDiv.innerText = 'Submitting registration...';
+
+            const name = document.getElementById('fullName').value;
+            const game = document.getElementById('gameSelect').value;
+            const gameId = document.getElementById('gameId').value;
+            const whatsapp = document.getElementById('whatsapp').value;
+
+            try {
+                await addDoc(collection(db, "registrations"), {
+                    name: name,
+                    game: game,
+                    game_id: gameId,
+                    phone: whatsapp,
+                    timestamp: new Date()
+                });
+                statusDiv.style.color = '#22c55e';
+                statusDiv.innerText = 'Registration Successful! Welcome to MashupSquad.';
+                form.reset();
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                statusDiv.style.color = '#ef4444';
+                statusDiv.innerText = 'Error submitting form. Please try again.';
+            }
+        });
+    </script>
+</body>
+</html>
