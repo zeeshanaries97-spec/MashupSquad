@@ -767,8 +767,33 @@
                 statsCard.scrollIntoView({ behavior: 'smooth' });
             }
         });
+        
+        // Newsletter Form
+        document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert("Thank you for subscribing to MashupSquad Esports!");
+            this.reset();
+        });
+    </script>
 
-// Registration Form Submission (Firebase Firestore Integration)
+    <!-- FIREBASE FIRESTORE REGISTRATION MODULE -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCM4tIhI69IzdYwMQ1lRhoG1-J8cc1IuWk",
+            authDomain: "gamingtournaments-6674d.firebaseapp.com",
+            projectId: "gamingtournaments-6674d",
+            storageBucket: "gamingtournaments-6674d.firebasestorage.app",
+            messagingSenderId: "429975429685",
+            appId: "1:429975429685:web:73c0914152581e99a2477c"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Registration Form Submission (Firebase Firestore Integration)
         document.getElementById('tournamentRegistrationForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const statusDiv = document.getElementById('formStatusMsg');
@@ -807,13 +832,6 @@
                 statusDiv.innerText = "❌ Error: " + error.message;
                 submitBtn.disabled = false;
             }
-        });
-        
-        // Newsletter Form
-        document.getElementById('newsletterForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert("Thank you for subscribing to MashupSquad Esports!");
-            this.reset();
         });
     </script>
 </body>
