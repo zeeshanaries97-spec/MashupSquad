@@ -754,7 +754,7 @@
             mobileMenu.classList.toggle('hidden');
         });
 
-        // UID Search Functionality
+       // UID Search Functionality - Data Not Found
         document.getElementById('uidSearchForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const inputUid = document.getElementById('searchUidInput').value.trim();
@@ -762,7 +762,15 @@
 
             if(inputUid) {
                 document.getElementById('statPlayerUid').innerText = inputUid;
-                document.getElementById('statPlayerName').innerText = "PLAYER_" + inputUid.slice(-4);
+                document.getElementById('statPlayerName').innerText = "DATA NOT FOUND";
+                document.getElementById('statGameType').innerText = "Not Registered";
+                
+                // Reset metrics to dashes
+                document.getElementById('statMatches').innerText = "-";
+                document.getElementById('statKills').innerText = "-";
+                document.getElementById('statWins').innerText = "-";
+                document.getElementById('statWinRate').innerText = "-";
+
                 statsCard.classList.remove('hidden');
                 statsCard.scrollIntoView({ behavior: 'smooth' });
             }
