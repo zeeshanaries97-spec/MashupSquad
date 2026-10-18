@@ -1,188 +1,801 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MashupSquad - Gaming Tournaments</title>
+    <title>MashupSquad - Premier Esports Tournaments</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            950: '#070b14',
+                            900: '#0b0f19',
+                            800: '#0f172a',
+                            700: '#1e293b',
+                            600: '#334155'
+                        },
+                        skyblue: {
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            glow: '#00d2ff'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Orbitron', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'neon-blue': '0 0 25px rgba(0, 210, 255, 0.4)',
+                        'neon-sm': '0 0 10px rgba(0, 210, 255, 0.3)',
+                        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom Styles -->
     <style>
-        :root {
-            --bg-color: #0b0f19;
-            --card-bg: #151c2c;
-            --accent: #f59e0b;
-            --text: #ffffff;
-            --text-dim: #94a3b8;
-        }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background-color: #070b14;
+            color: #f8fafc;
+            overflow-x: hidden;
         }
-        header {
-            width: 100%;
-            background: #0f172a;
-            padding: 20px 0;
-            text-align: center;
-            border-bottom: 2px solid var(--accent);
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2);
+        .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
         }
-        h1 {
-            margin: 0;
-            font-size: 2.2rem;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 2px;
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(56, 189, 248, 0.2);
         }
-        .container {
-            width: 90%;
-            max-width: 500px;
-            margin: 30px auto;
+        .glass-panel-hover:hover {
+            border-color: rgba(0, 210, 255, 0.6);
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.25);
         }
-        .card {
-            background-color: var(--card-bg);
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid #1e293b;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 0%, #38bdf8 50%, #00d2ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .card h2 {
-            margin-top: 0;
-            text-align: center;
-            color: var(--text);
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        .form-group {
-            margin-bottom: 18px;
+        ::-webkit-scrollbar-track {
+            background: #0b0f19;
         }
-        label {
-            display: block;
-            margin-bottom: 6px;
-            color: var(--text-dim);
-            font-size: 0.9rem;
+        ::-webkit-scrollbar-thumb {
+            background: #0284c7;
+            border-radius: 4px;
         }
-        input, select {
-            width: 100%;
-            padding: 12px;
-            background-color: #0b0f19;
-            border: 1px solid #334155;
-            border-radius: 6px;
-            color: #fff;
-            box-sizing: border-box;
-            font-size: 1rem;
-        }
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-        button {
-            width: 100%;
-            padding: 14px;
-            background-color: var(--accent);
-            color: #000;
-            border: none;
-            border-radius: 6px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        button:hover {
-            background-color: #d97706;
-        }
-        #status {
-            margin-top: 15px;
-            text-align: center;
-            font-weight: bold;
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00d2ff;
         }
     </style>
 </head>
-<body>
+<body class="bg-navy-950 text-slate-100 flex flex-col min-h-screen selection:bg-skyblue-500 selection:text-white">
 
-    <header>
-        <h1>MashupSquad</h1>
-        <p style="margin: 5px 0 0; color: var(--text-dim);">Official Gaming Tournaments Hub</p>
-    </header>
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <div class="bg-gradient-to-r from-navy-900 via-skyblue-600 to-navy-900 text-center py-1.5 px-4 text-xs md:text-sm font-semibold tracking-wider text-white border-b border-skyblue-500/30 flex items-center justify-center gap-2">
+        <span class="bg-skyblue-400 text-navy-950 text-[10px] uppercase font-black px-2 py-0.5 rounded-full animate-pulse">UPCOMING EVENTS</span>
+        <span>NEW TOURNAMENTS ANNOUNCEMENT - REGISTRATIONS OPENING SOON!</span>
+        <button onclick="openModal('registerModal')" class="underline hover:text-skyblue-300 ml-2 transition">Pre-Register</button>
+    </div>
 
-    <div class="container">
-        <div class="card">
-            <h2>Tournament Pre-Registration</h2>
-            <form id="registrationForm">
-                <div class="form-group">
-                    <label for="fullName">Full Name</label>
-                    <input type="text" id="fullName" placeholder="Enter your name" required>
+    <!-- MAIN NAVBAR -->
+    <nav class="sticky top-0 z-40 glass-panel border-b border-skyblue-500/20 px-4 lg:px-8 py-3 transition-all duration-300">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-skyblue-400 to-navy-900 p-0.5 shadow-neon-sm group-hover:shadow-neon-blue transition duration-300">
+                    <div class="w-full h-full bg-navy-950 rounded-[10px] flex items-center justify-center">
+                        <i class="fa-solid font-orbitron text-skyblue-400 text-xl font-black">M</i>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="gameSelect">Select Game</label>
-                    <select id="gameSelect" required>
-                        <option value="Free Fire">Free Fire</option>
-                        <option value="PUBG Mobile">PUBG Mobile</option>
-                    </select>
+                <div>
+                    <span class="font-orbitron font-black text-xl lg:text-2xl tracking-widest text-white group-hover:text-skyblue-400 transition">MASHUP<span class="text-skyblue-400">SQUAD</span></span>
+                    <span class="block text-[9px] text-skyblue-300/70 tracking-widest uppercase font-semibold">Esports Arena</span>
                 </div>
-                <div class="form-group">
-                    <label for="gameId">In-Game ID / Character ID</label>
-                    <input type="text" id="gameId" placeholder="e.g. 512345678" required>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <div class="hidden md:flex items-center space-x-6 lg:space-x-8 font-medium text-sm text-slate-300">
+                <a href="#tournaments" class="hover:text-skyblue-400 transition flex items-center gap-1.5"><i class="fa-solid fa-trophy text-xs text-skyblue-400"></i> Tournaments</a>
+                <a href="#tracker" class="hover:text-skyblue-400 transition flex items-center gap-1.5"><i class="fa-solid fa-crosshair text-xs text-skyblue-400"></i> Player Lobby</a>
+                <a href="#community" class="hover:text-skyblue-400 transition flex items-center gap-1.5"><i class="fa-brands fa-discord text-xs text-skyblue-400"></i> Community</a>
+            </div>
+
+            <!-- Header Action Buttons -->
+            <div class="hidden sm:flex items-center gap-3">
+                <div id="userStateHeader" class="flex items-center gap-2">
+                    <button onclick="openModal('authModal')" class="px-5 py-2.5 rounded-lg text-xs font-bold font-orbitron tracking-wider text-skyblue-300 border border-skyblue-500/40 hover:border-skyblue-400 hover:bg-skyblue-500/10 transition duration-300 flex items-center gap-2">
+                        <i class="fa-solid fa-right-to-bracket"></i> SIGN IN
+                    </button>
+                    <button onclick="openModal('registerModal')" class="relative group overflow-hidden px-5 py-2.5 rounded-lg text-xs font-bold font-orbitron tracking-wider bg-gradient-to-r from-skyblue-500 to-skyblue-600 text-navy-950 shadow-neon-sm hover:shadow-neon-blue transition duration-300 transform active:scale-95">
+                        <span class="relative z-10 flex items-center gap-2"><i class="fa-solid fa-gamepad"></i> GO TO LOBBY</span>
+                    </button>
                 </div>
-                <div class="form-group">
-                    <label for="whatsapp">WhatsApp Number</label>
-                    <input type="tel" id="whatsapp" placeholder="03001234567" required>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobileMenuBtn" class="md:hidden text-slate-300 hover:text-skyblue-400 text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden mt-4 pt-4 border-t border-navy-700/60 flex flex-col space-y-3 font-medium text-sm">
+            <a href="#tournaments" class="hover:text-skyblue-400 py-1 flex items-center gap-2"><i class="fa-solid fa-trophy text-skyblue-400"></i> Tournaments</a>
+            <a href="#tracker" class="hover:text-skyblue-400 py-1 flex items-center gap-2"><i class="fa-solid fa-crosshair text-skyblue-400"></i> Player Lobby & Stats</a>
+            <a href="#community" class="hover:text-skyblue-400 py-1 flex items-center gap-2"><i class="fa-brands fa-discord text-skyblue-400"></i> Community</a>
+            <div class="pt-3 border-t border-navy-700/60 flex flex-col gap-2">
+                <button onclick="openModal('authModal')" class="w-full py-2.5 rounded-lg text-xs font-bold font-orbitron text-skyblue-300 border border-skyblue-500/40 text-center">SIGN IN / SIGN UP</button>
+                <button onclick="openModal('registerModal')" class="w-full py-2.5 rounded-lg text-xs font-bold font-orbitron bg-skyblue-400 text-navy-950 font-black text-center shadow-neon-sm">GO TO LOBBY</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO BANNER SECTION -->
+    <section class="relative min-h-[80vh] flex items-center justify-center pt-8 pb-16 px-4 overflow-hidden">
+        <!-- Background Ambient Glow & Overlay -->
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-skyblue-600/20 via-navy-950 to-navy-950 pointer-events-none"></div>
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-skyblue-500/10 blur-[120px] rounded-full pointer-events-none"></div>
+        
+        <!-- Cyber Grid Background -->
+        <div class="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#0284c7_1px,transparent_1px),linear-gradient(to_bottom,#0284c7_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
+
+        <div class="max-w-6xl mx-auto relative z-10 text-center">
+            <!-- High Tech Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel border border-skyblue-400/40 text-skyblue-300 text-xs font-bold tracking-widest uppercase mb-6 shadow-neon-sm">
+                <span class="w-2 h-2 rounded-full bg-skyblue-400 animate-ping"></span>
+                Official Battleground Arena
+            </div>
+
+            <!-- Action Heading -->
+            <h1 class="font-orbitron font-black text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight leading-none mb-6">
+                ELEVATE YOUR <br/>
+                <span class="gradient-text drop-shadow-[0_0_35px_rgba(0,210,255,0.4)]">GAMEPLAY</span>
+            </h1>
+
+            <p class="text-slate-300 max-w-2xl mx-auto text-sm sm:text-base md:text-lg mb-8 font-light leading-relaxed">
+                Join Pakistan's premier Free Fire & PUBG Mobile esports platform. Compete against top squads, prove your skill, and claim ultimate glory with instant UID status tracking.
+            </p>
+
+            <!-- Hero Action CTA Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5">
+                <button onclick="openModal('registerModal')" class="w-full sm:w-auto px-8 py-4 rounded-xl font-orbitron font-black text-sm tracking-wider bg-gradient-to-r from-skyblue-400 via-skyblue-500 to-skyblue-600 text-navy-950 shadow-neon-blue hover:scale-105 transition duration-300 flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-trophy text-lg"></i> PRE-REGISTER FOR TOURNAMENTS
+                </button>
+                <a href="#tournaments" class="w-full sm:w-auto px-8 py-4 rounded-xl font-orbitron font-bold text-sm tracking-wider glass-panel hover:bg-navy-800/80 border border-skyblue-400/30 text-skyblue-300 hover:text-white transition duration-300 flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-list-ul"></i> UPCOMING MATCHES
+                </a>
+            </div>
+
+            <!-- Featured Games Logos Badges -->
+            <div class="mt-12 flex items-center justify-center gap-6 sm:gap-12 opacity-80 text-xs font-orbitron text-slate-400 uppercase tracking-widest">
+                <div class="flex items-center gap-2 border border-navy-700 bg-navy-900/60 px-4 py-2 rounded-lg">
+                    <i class="fa-solid fa-fire text-amber-500 text-base"></i> Free Fire Esports
                 </div>
-                <button type="submit" id="submitBtn">Register Now</button>
+                <div class="flex items-center gap-2 border border-navy-700 bg-navy-900/60 px-4 py-2 rounded-lg">
+                    <i class="fa-solid fa-gun text-skyblue-400 text-base"></i> PUBG Mobile
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS COUNTER SECTION -->
+    <section class="py-10 px-4 relative z-10 border-y border-skyblue-500/20 bg-navy-900/40">
+        <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="glass-panel p-6 rounded-2xl text-center glass-panel-hover transition duration-300">
+                <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-skyblue-500/10 border border-skyblue-400/30 flex items-center justify-center text-skyblue-400 text-xl">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                <h3 class="font-orbitron font-black text-2xl sm:text-3xl lg:text-4xl text-white mb-1">50+</h3>
+                <p class="text-xs font-semibold uppercase tracking-wider text-skyblue-300">Events Hosted</p>
+                <p class="text-[10px] text-slate-400 mt-1">Qualifiers & Grand Finals</p>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl text-center glass-panel-hover transition duration-300">
+                <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-skyblue-500/10 border border-skyblue-400/30 flex items-center justify-center text-skyblue-400 text-xl">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <h3 class="font-orbitron font-black text-2xl sm:text-3xl lg:text-4xl text-white mb-1">10M+</h3>
+                <p class="text-xs font-semibold uppercase tracking-wider text-skyblue-300">Peak Viewers</p>
+                <p class="text-[10px] text-slate-400 mt-1">Concurrent Views</p>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl text-center glass-panel-hover transition duration-300">
+                <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-skyblue-500/10 border border-skyblue-400/30 flex items-center justify-center text-skyblue-400 text-xl">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+                <h3 class="font-orbitron font-black text-2xl sm:text-3xl lg:text-4xl text-white mb-1">99.9%</h3>
+                <p class="text-xs font-semibold uppercase tracking-wider text-skyblue-300">Stream Uptime</p>
+                <p class="text-[10px] text-slate-400 mt-1">Monitored 24/7</p>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl text-center glass-panel-hover transition duration-300">
+                <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-skyblue-500/10 border border-skyblue-400/30 flex items-center justify-center text-skyblue-400 text-xl">
+                    <i class="fa-solid fa-headset"></i>
+                </div>
+                <h3 class="font-orbitron font-black text-2xl sm:text-3xl lg:text-4xl text-white mb-1">&lt; 2 MIN</h3>
+                <p class="text-xs font-semibold uppercase tracking-wider text-skyblue-300">Issue Response</p>
+                <p class="text-[10px] text-slate-400 mt-1">Live Support Team</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURED TOURNAMENTS SECTION -->
+    <section id="tournaments" class="py-20 px-4 max-w-7xl mx-auto w-full">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+            <div>
+                <div class="inline-flex items-center gap-2 text-skyblue-400 font-orbitron text-xs font-bold tracking-widest uppercase mb-2">
+                    <i class="fa-solid fa-shield-halved"></i> Active Battlegrounds
+                </div>
+                <h2 class="font-orbitron font-black text-3xl sm:text-4xl text-white">UPCOMING <span class="text-skyblue-400">TOURNAMENTS</span></h2>
+            </div>
+            <p class="text-slate-400 text-sm max-w-md mt-3 md:mt-0">
+                Register your interest early for upcoming Free Fire & PUBG tournaments. Detailed schedules will be revealed soon!
+            </p>
+        </div>
+
+        <!-- Tournament Cards Grid (STRICTLY NO PRIZE NUMBERS - ALL COMING SOON) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- Tournament Card 1: Free Fire Squad Showdown -->
+            <div class="glass-panel rounded-2xl overflow-hidden glass-panel-hover transition duration-300 flex flex-col group border border-skyblue-500/30">
+                <div class="relative h-48 bg-gradient-to-br from-navy-900 via-skyblue-900 to-navy-950 p-6 flex flex-col justify-between overflow-hidden">
+                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80')] bg-cover bg-center opacity-30 group-hover:scale-105 transition duration-500"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-navy-900 via-transparent to-transparent"></div>
+                    
+                    <div class="relative z-10 flex justify-between items-start">
+                        <span class="bg-skyblue-500/20 text-skyblue-300 border border-skyblue-500/40 text-[10px] font-black uppercase font-orbitron px-3 py-1 rounded-full flex items-center gap-1.5 backdrop-blur-md">
+                            <span class="w-1.5 h-1.5 rounded-full bg-skyblue-400 animate-ping"></span> COMING SOON
+                        </span>
+                        <span class="bg-navy-950/80 text-slate-300 text-xs px-2.5 py-1 rounded-md font-semibold border border-navy-700">
+                            Free Fire
+                        </span>
+                    </div>
+
+                    <div class="relative z-10">
+                        <div class="text-xs font-bold text-skyblue-300 font-orbitron uppercase tracking-wider">Tournament Status</div>
+                        <div class="font-orbitron font-black text-2xl text-white flex items-baseline gap-2">
+                            COMING SOON
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-6 flex-1 flex flex-col justify-between bg-navy-900/60">
+                    <div>
+                        <h3 class="font-orbitron font-bold text-xl text-white mb-2 group-hover:text-skyblue-400 transition">FREE FIRE SQUAD SHOWDOWN</h3>
+                        <p class="text-slate-400 text-xs line-clamp-2 mb-6">Official MashupSquad Free Fire Mobile Championship. Pre-register your squad now.</p>
+
+                        <div class="grid grid-cols-2 gap-3 text-xs mb-6">
+                            <div class="bg-navy-950 p-2.5 rounded-lg border border-navy-800 flex items-center gap-2">
+                                <i class="fa-solid fa-users text-skyblue-400"></i>
+                                <div>
+                                    <span class="block text-[10px] text-slate-500 uppercase font-bold">Mode</span>
+                                    <span class="text-slate-200 font-semibold">4v4 Squad</span>
+                                </div>
+                            </div>
+                            <div class="bg-navy-950 p-2.5 rounded-lg border border-navy-800 flex items-center gap-2">
+                                <i class="fa-solid fa-clock text-skyblue-400"></i>
+                                <div>
+                                    <span class="block text-[10px] text-slate-500 uppercase font-bold">Entry Details</span>
+                                    <span class="text-skyblue-300 font-semibold">Coming Soon</span>
+                                </div>
+                            </div>
+                            <div class="bg-navy-950 p-2.5 rounded-lg border border-navy-800 flex items-center gap-2">
+                                <i class="fa-solid fa-globe text-skyblue-400"></i>
+                                <div>
+                                    <span class="block text-[10px] text-slate-500 uppercase font-bold">Server</span>
+                                    <span class="text-slate-200 font-semibold">Asia / PAK</span>
+                                </div>
+                            </div>
+                            <div class="bg-navy-950 p-2.5 rounded-lg border border-navy-800 flex items-center gap-2">
+                                <i class="fa-solid fa-user-check text-skyblue-400"></i>
+                                <div>
+                                    <span class="block text-[10px] text-slate-500 uppercase font-bold">Max Teams</span>
+                                    <span class="text-skyblue-300 font-bold">48 Teams</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="openModal('registerModal')" class="w-full py-3 rounded-xl font-orbitron font-bold text-xs tracking-wider bg-skyblue-500 hover:bg-skyblue-400 text-navy-950 transition duration-300 shadow-neon-sm flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-pen-to-square"></i> PRE-REGISTER SLOT
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tournament Card 2: PUBG Mobile Apex -->
+            <div class="glass-panel rounded-2xl overflow-hidden glass-panel-hover transition duration-300 flex flex-col group border border-skyblue-500/30">
+                <div class="relative h-48 bg-gradient-to-br from-navy-900 via-skyblue-900 to-navy-950 p-6 flex flex-col justify-between overflow-hidden">
+                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=800&q=80')] bg-cover bg-center opacity-30 group-hover:scale-105 transition duration-500"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-navy-900 via-transparent to-transparent"></div>
+                    
+                    <div class="relative z-10 flex justify-between items-start">
+                        <span class="bg-skyblue-500/20 text-skyblue-300 border border-skyblue-500/40 text-[10px] font-black uppercase font-orbitron px-3 py-1 rounded-full flex items-center gap-1.5 backdrop-blur-md">
+                            <span class="w-1.5 h-1.5 rounded-full bg-skyblue-400 animate-ping"></span> COMING SOON
+                        </span>
+                        <span class="bg-navy-950/80 text-slate-300 text-xs px-2.5 py-1 rounded-md font-semibold border border-navy-700">
+                            PUBG Mobile
+                        </span>
+                    </div>
+
+                    <div class="relative z-10">
+                        <div class="text-xs font-bold text-skyblue-300 font-orbitron uppercase tracking-wider">Tournament Status</div>
+                        <div class="font-orbitron font-black text-2xl text-white flex items-baseline gap-2">
+                            COMING SOON
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-6 flex-1 flex flex-col justify-between bg-navy-900/60">
+                    <div>
+                        <h3 class="font-orbitron font-bold text-xl text-white mb-2 group-hover:text-skyblue-400 transition">PUBG MOBILE APEX SHOWDOWN</h3>
+                        <p class="text-slate-400 text-xs line-clamp-2 mb-6">Battleground tournament featuring top PUBG squads. Pre-registration open.</p>
+
+                        <div class="grid grid-cols-2 gap-3 text-xs mb-6">
+                            <div class="bg-navy-950 p-2.5 rounded-lg border border-navy-800 flex items-center gap-2">
+                                <i class="fa-solid fa-users text-skyblue-400"></i>
+                                <div>
+                                    <span class="block text-[10px] text-slate-500 uppercase font-bold">Mode</span>
+                                    <span class="text-slate-200 font-semibold">Squad Erangel</span>
+                                </div>
+                            </div>
+                            <div class="bg-navy-950 p-2.5 rounded-lg border border-navy-800 flex items-center gap-2">
+                                <i class="fa-solid fa-clock text-skyblue-400"></i>
+                                <div>
+                                    <span class="block text-[10px] text-slate-500 uppercase font-bold">Entry Details</span>
+                                    <span class="text-skyblue-300 font-semibold">Coming Soon</span>
+                                </div>
+                            </div>
+                            <div class="bg-navy-950 p-2.5 rounded-lg border border-navy-800 flex items-center gap-2">
+                                <i class="fa-solid fa-globe text-skyblue-400"></i>
+                                <div>
+                                    <span class="block text-[10px] text-slate-500 uppercase font-bold">Server</span>
+                                    <span class="text-slate-200 font-semibold">Asia Server</span>
+                                </div>
+                            </div>
+                            <div class="bg-navy-950 p-2.5 rounded-lg border border-navy-800 flex items-center gap-2">
+                                <i class="fa-solid fa-user-check text-skyblue-400"></i>
+                                <div>
+                                    <span class="block text-[10px] text-slate-500 uppercase font-bold">Max Teams</span>
+                                    <span class="text-skyblue-300 font-bold">256 Teams</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="openModal('registerModal')" class="w-full py-3 rounded-xl font-orbitron font-bold text-xs tracking-wider bg-skyblue-500 hover:bg-skyblue-400 text-navy-950 transition duration-300 shadow-neon-sm flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-pen-to-square"></i> PRE-REGISTER SLOT
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tournament Card 3: Free Fire Solo Clash -->
+            <div class="glass-panel rounded-2xl overflow-hidden glass-panel-hover transition duration-300 flex flex-col group border border-skyblue-500/30">
+                <div class="relative h-48 bg-gradient-to-br from-navy-900 via-skyblue-900 to-navy-950 p-6 flex flex-col justify-between overflow-hidden">
+                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=800&q=80')] bg-cover bg-center opacity-30 group-hover:scale-105 transition duration-500"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-navy-900 via-transparent to-transparent"></div>
+                    
+                    <div class="relative z-10 flex justify-between items-start">
+                        <span class="bg-skyblue-500/20 text-skyblue-300 border border-skyblue-500/40 text-[10px] font-black uppercase font-orbitron px-3 py-1 rounded-full flex items-center gap-1.5 backdrop-blur-md">
+                            <span class="w-1.5 h-1.5 rounded-full bg-skyblue-400 animate-ping"></span> COMING SOON
+                        </span>
+                        <span class="bg-navy-950/80 text-slate-300 text-xs px-2.5 py-1 rounded-md font-semibold border border-navy-700">
+                            Free Fire
+                        </span>
+                    </div>
+
+                    <div class="relative z-10">
+                        <div class="text-xs font-bold text-skyblue-300 font-orbitron uppercase tracking-wider">Tournament Status</div>
+                        <div class="font-orbitron font-black text-2xl text-white flex items-baseline gap-2">
+                            COMING SOON
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-6 flex-1 flex flex-col justify-between bg-navy-900/60">
+                    <div>
+                        <h3 class="font-orbitron font-bold text-xl text-white mb-2 group-hover:text-skyblue-400 transition">SOLO KING RUMBLE 1V1</h3>
+                        <p class="text-slate-400 text-xs line-clamp-2 mb-6">Prove your individual mechanical skill in CS 1v1 custom lobby matchups.</p>
+
+                        <div class="grid grid-cols-2 gap-3 text-xs mb-6">
+                            <div class="bg-navy-950 p-2.5 rounded-lg border border-navy-800 flex items-center gap-2">
+                                <i class="fa-solid fa-user text-skyblue-400"></i>
+                                <div>
+                                    <span class="block text-[10px] text-slate-500 uppercase font-bold">Mode</span>
+                                    <span class="text-slate-200 font-semibold">1v1 Solo</span>
+                                </div>
+                            </div>
+                            <div class="bg-navy-950 p-2.5 rounded-lg border border-navy-800 flex items-center gap-2">
+                                <i class="fa-solid fa-clock text-skyblue-400"></i>
+                                <div>
+                                    <span class="block text-[10px] text-slate-500 uppercase font-bold">Entry Details</span>
+                                    <span class="text-skyblue-300 font-semibold">Coming Soon</span>
+                                </div>
+                            </div>
+                            <div class="bg-navy-950 p-2.5 rounded-lg border border-navy-800 flex items-center gap-2">
+                                <i class="fa-solid fa-map text-skyblue-400"></i>
+                                <div>
+                                    <span class="block text-[10px] text-slate-500 uppercase font-bold">Map</span>
+                                    <span class="text-slate-200 font-semibold">Bermuda CS</span>
+                                </div>
+                            </div>
+                            <div class="bg-navy-950 p-2.5 rounded-lg border border-navy-800 flex items-center gap-2">
+                                <i class="fa-solid fa-user-check text-skyblue-400"></i>
+                                <div>
+                                    <span class="block text-[10px] text-slate-500 uppercase font-bold">Max Players</span>
+                                    <span class="text-skyblue-300 font-bold">64 Players</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="openModal('registerModal')" class="w-full py-3 rounded-xl font-orbitron font-bold text-xs tracking-wider bg-skyblue-500 hover:bg-skyblue-400 text-navy-950 transition duration-300 shadow-neon-sm flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-pen-to-square"></i> PRE-REGISTER SLOT
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- UID STATS TRACKER & PLAYER LOBBY SECTION -->
+    <section id="tracker" class="py-16 px-4 bg-gradient-to-b from-navy-950 via-navy-900 to-navy-950 border-t border-skyblue-500/20">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-10">
+                <span class="text-skyblue-400 font-orbitron text-xs font-bold tracking-widest uppercase mb-2 inline-block"><i class="fa-solid fa-crosshair"></i> Player Verification Hub</span>
+                <h2 class="font-orbitron font-black text-3xl sm:text-4xl text-white">PLAYER LOBBY & <span class="text-skyblue-400">UID STATS TRACKER</span></h2>
+                <p class="text-slate-400 text-sm mt-2">Enter your Free Fire or PUBG Mobile In-Game UID to check your registered player status, gameplay, kills, and win rates.</p>
+            </div>
+
+            <!-- Search Card -->
+            <div class="glass-panel p-6 sm:p-8 rounded-2xl shadow-2xl mb-8 border border-skyblue-500/30">
+                <form id="uidSearchForm" class="flex flex-col sm:flex-row gap-4">
+                    <div class="relative flex-1">
+                        <i class="fa-solid fa-id-card absolute left-4 top-1/2 -translate-y-1/2 text-skyblue-400"></i>
+                        <input type="text" id="searchUidInput" placeholder="Enter Game Character ID / UID (e.g., 512345678)" required class="w-full pl-11 pr-4 py-3.5 rounded-xl bg-navy-950 border border-navy-700 text-white placeholder-slate-500 focus:outline-none focus:border-skyblue-400 focus:ring-1 focus:ring-skyblue-400 font-mono text-sm">
+                    </div>
+                    <button type="submit" class="px-8 py-3.5 rounded-xl font-orbitron font-bold text-xs tracking-wider bg-gradient-to-r from-skyblue-400 to-skyblue-600 text-navy-950 shadow-neon-sm hover:shadow-neon-blue transition duration-300 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-magnifying-glass"></i> SEARCH PLAYER
+                    </button>
+                </form>
+            </div>
+
+            <!-- Result Display Box -->
+            <div id="playerStatsCard" class="hidden glass-panel p-6 sm:p-8 rounded-2xl border border-skyblue-400/50 bg-navy-900/80">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-navy-800 pb-6 mb-6 gap-4">
+                    <div class="flex items-center gap-4">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-skyblue-400 to-navy-900 p-0.5 shadow-neon-sm">
+                            <div class="w-full h-full bg-navy-950 rounded-[14px] flex items-center justify-center">
+                                <i class="fa-solid fa-user-ninja text-2xl text-skyblue-400"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 id="statPlayerName" class="font-orbitron font-black text-2xl text-white">MASHUP_PRO_1</h3>
+                            <p class="text-xs text-slate-400">UID: <span id="statPlayerUid" class="font-mono text-skyblue-300">512345678</span> | Game: <span id="statGameType" class="text-skyblue-400 font-semibold">Free Fire / PUBG</span></p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-xs font-bold uppercase font-orbitron px-4 py-1.5 rounded-full flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check"></i> Registration Verified
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Metrics Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                    <div class="bg-navy-950 p-4 rounded-xl border border-navy-800">
+                        <div class="text-[10px] uppercase font-bold text-slate-500 mb-1">Matches Played</div>
+                        <div id="statMatches" class="font-orbitron font-black text-2xl text-white">42</div>
+                    </div>
+                    <div class="bg-navy-950 p-4 rounded-xl border border-navy-800">
+                        <div class="text-[10px] uppercase font-bold text-slate-500 mb-1">Total Kills</div>
+                        <div id="statKills" class="font-orbitron font-black text-2xl text-skyblue-400">186</div>
+                    </div>
+                    <div class="bg-navy-950 p-4 rounded-xl border border-navy-800">
+                        <div class="text-[10px] uppercase font-bold text-slate-500 mb-1">Booyah / Wins</div>
+                        <div id="statWins" class="font-orbitron font-black text-2xl text-emerald-400">14</div>
+                    </div>
+                    <div class="bg-navy-950 p-4 rounded-xl border border-navy-800">
+                        <div class="text-[10px] uppercase font-bold text-slate-500 mb-1">Win Rate</div>
+                        <div id="statWinRate" class="font-orbitron font-black text-2xl text-amber-400">33.3%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMMUNITY DISCORD & STREAMING BANNER -->
+    <section id="community" class="py-16 px-4 max-w-7xl mx-auto w-full">
+        <div class="glass-panel p-8 sm:p-12 rounded-3xl relative overflow-hidden border border-skyblue-400/40 bg-gradient-to-r from-navy-900 via-navy-800 to-navy-900">
+            <div class="absolute right-0 top-0 w-96 h-96 bg-skyblue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
+                <div class="text-center lg:text-left max-w-xl">
+                    <span class="text-skyblue-400 font-orbitron text-xs font-bold tracking-widest uppercase mb-2 block"><i class="fa-brands fa-discord text-base"></i> Join Our Gaming Squad</span>
+                    <h2 class="font-orbitron font-black text-3xl sm:text-4xl text-white mb-4">CONNECT WITH <span class="text-skyblue-400">MASHUPSQUAD</span> COMMUNITY</h2>
+                    <p class="text-slate-300 text-sm leading-relaxed">Get room credentials, match announcements, scrims updates, and support directly inside our Discord server.</p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+                    <a href="https://discord.com" target="_blank" class="px-8 py-4 rounded-xl font-orbitron font-bold text-xs tracking-wider bg-[#5865F2] hover:bg-[#4752C4] text-white transition duration-300 shadow-lg flex items-center justify-center gap-3">
+                        <i class="fa-brands fa-discord text-lg"></i> JOIN DISCORD SERVER
+                    </a>
+                    <a href="https://youtube.com" target="_blank" class="px-8 py-4 rounded-xl font-orbitron font-bold text-xs tracking-wider bg-red-600 hover:bg-red-700 text-white transition duration-300 shadow-lg flex items-center justify-center gap-3">
+                        <i class="fa-brands fa-youtube text-lg"></i> WATCH LIVESTREAMS
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER & NEWSLETTER -->
+    <footer class="mt-auto bg-navy-900 border-t border-skyblue-500/20 pt-16 pb-8 px-4 text-slate-400 text-sm">
+        <div class="max-w-7xl mx-auto">
+            <!-- Newsletter Banner -->
+            <div class="bg-gradient-to-r from-skyblue-500 to-skyblue-600 rounded-2xl p-8 sm:p-10 text-navy-950 mb-16 flex flex-col md:flex-row items-center justify-between gap-6 shadow-neon-sm">
+                <div>
+                    <h3 class="font-orbitron font-black text-2xl sm:text-3xl uppercase tracking-tight">BECOME A MEMBER</h3>
+                    <p class="text-navy-900 font-medium text-xs sm:text-sm mt-1">Stay updated with tournament announcements, custom room codes, and exclusive updates.</p>
+                </div>
+                <form id="newsletterForm" class="flex w-full md:w-auto gap-2">
+                    <input type="email" placeholder="Your Email Address" required class="px-4 py-3 rounded-xl bg-navy-950 text-white placeholder-slate-500 text-sm focus:outline-none w-full sm:w-64">
+                    <button type="submit" class="px-6 py-3 rounded-xl bg-navy-950 hover:bg-navy-900 text-skyblue-400 font-orbitron font-bold text-xs uppercase tracking-wider transition">SUBSCRIBE</button>
+                </form>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+                <!-- Col 1 -->
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-8 h-8 rounded-lg bg-skyblue-400 flex items-center justify-center text-navy-950 font-black font-orbitron">M</div>
+                        <span class="font-orbitron font-black text-lg text-white">MASHUPSQUAD</span>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-4">Pakistan's official competitive gaming platform providing daily custom scrims and tournaments.</p>
+                    <div class="flex space-x-3 text-slate-300">
+                        <a href="#" class="w-8 h-8 rounded-lg bg-navy-950 hover:bg-skyblue-500 hover:text-navy-950 border border-navy-800 flex items-center justify-center transition"><i class="fa-brands fa-facebook-f text-xs"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-lg bg-navy-950 hover:bg-skyblue-500 hover:text-navy-950 border border-navy-800 flex items-center justify-center transition"><i class="fa-brands fa-instagram text-xs"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-lg bg-navy-950 hover:bg-skyblue-500 hover:text-navy-950 border border-navy-800 flex items-center justify-center transition"><i class="fa-brands fa-tiktok text-xs"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-lg bg-navy-950 hover:bg-skyblue-500 hover:text-navy-950 border border-navy-800 flex items-center justify-center transition"><i class="fa-brands fa-youtube text-xs"></i></a>
+                    </div>
+                </div>
+
+                <!-- Col 2 -->
+                <div>
+                    <h4 class="font-orbitron font-bold text-white text-xs uppercase tracking-widest mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#tournaments" class="hover:text-skyblue-400 transition">Upcoming Tournaments</a></li>
+                        <li><a href="#tracker" class="hover:text-skyblue-400 transition">Player Lobby Search</a></li>
+                        <li><a href="#" onclick="openModal('registerModal')" class="hover:text-skyblue-400 transition">Slot Pre-Registration</a></li>
+                        <li><a href="#community" class="hover:text-skyblue-400 transition">Discord Support</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3 -->
+                <div>
+                    <h4 class="font-orbitron font-bold text-white text-xs uppercase tracking-widest mb-4">Rules & Support</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#" class="hover:text-skyblue-400 transition">Tournament Ruleset</a></li>
+                        <li><a href="#" class="hover:text-skyblue-400 transition">Anti-Cheat Policy</a></li>
+                        <li><a href="#" class="hover:text-skyblue-400 transition">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-skyblue-400 transition">Terms of Service</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4 -->
+                <div>
+                    <h4 class="font-orbitron font-bold text-white text-xs uppercase tracking-widest mb-4">Get In Touch</h4>
+                    <p class="text-xs text-slate-400 mb-2"><i class="fa-solid fa-envelope text-skyblue-400 mr-2"></i> support@mashupsquad.com</p>
+                    <p class="text-xs text-slate-400 mb-2"><i class="fa-solid fa-phone text-skyblue-400 mr-2"></i> +92 (0) 300 1234567</p>
+                    <p class="text-xs text-slate-400"><i class="fa-solid fa-location-dot text-skyblue-400 mr-2"></i> Karachi, Pakistan</p>
+                </div>
+            </div>
+
+            <div class="border-t border-navy-800 pt-6 text-center text-xs text-slate-500">
+                &copy; 2026 MashupSquad Esports. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ==================== INTERACTIVE MODALS ==================== -->
+
+    <!-- 1. SIGN IN / SIGN UP AUTH MODAL -->
+    <div id="authModal" class="fixed inset-0 z-50 bg-navy-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-md rounded-2xl border border-skyblue-400/50 p-6 sm:p-8 relative shadow-2xl">
+            <button onclick="closeModal('authModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Modal Header Tabs -->
+            <div class="flex border-b border-navy-800 mb-6 font-orbitron text-xs font-bold">
+                <button id="tabSignIn" onclick="switchAuthTab('signin')" class="flex-1 py-3 text-center border-b-2 border-skyblue-400 text-skyblue-400">SIGN IN</button>
+                <button id="tabSignUp" onclick="switchAuthTab('signup')" class="flex-1 py-3 text-center text-slate-400 hover:text-white">CREATE ACCOUNT</button>
+            </div>
+
+            <!-- Sign In Form -->
+            <form id="signInForm" class="space-y-4">
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Email Address</label>
+                    <input type="email" required placeholder="player@gmail.com" class="w-full px-4 py-3 rounded-xl bg-navy-950 border border-navy-700 text-white text-sm focus:outline-none focus:border-skyblue-400">
+                </div>
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Password</label>
+                    <input type="password" required placeholder="••••••••" class="w-full px-4 py-3 rounded-xl bg-navy-950 border border-navy-700 text-white text-sm focus:outline-none focus:border-skyblue-400">
+                </div>
+                <button type="submit" class="w-full py-3.5 rounded-xl font-orbitron font-bold text-xs bg-gradient-to-r from-skyblue-400 to-skyblue-600 text-navy-950 shadow-neon-sm hover:shadow-neon-blue transition">
+                    LOGIN TO LOBBY
+                </button>
             </form>
-            <div id="status"></div>
+
+            <!-- Sign Up Form (Hidden by default) -->
+            <form id="signUpForm" class="space-y-4 hidden">
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Gamer Tag / Username</label>
+                    <input type="text" required placeholder="e.g. Mashup_King" class="w-full px-4 py-3 rounded-xl bg-navy-950 border border-navy-700 text-white text-sm focus:outline-none focus:border-skyblue-400">
+                </div>
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Email Address</label>
+                    <input type="email" required placeholder="player@gmail.com" class="w-full px-4 py-3 rounded-xl bg-navy-950 border border-navy-700 text-white text-sm focus:outline-none focus:border-skyblue-400">
+                </div>
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">Password</label>
+                    <input type="password" required placeholder="••••••••" class="w-full px-4 py-3 rounded-xl bg-navy-950 border border-navy-700 text-white text-sm focus:outline-none focus:border-skyblue-400">
+                </div>
+                <button type="submit" class="w-full py-3.5 rounded-xl font-orbitron font-bold text-xs bg-gradient-to-r from-skyblue-400 to-skyblue-600 text-navy-950 shadow-neon-sm hover:shadow-neon-blue transition">
+                    CREATE ACCOUNT
+                </button>
+            </form>
         </div>
     </div>
 
-    <!-- Firebase Scripts -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Firebase Config Keys Attached
-        const firebaseConfig = {
-            apiKey: "AIzaSyCM4tIhI69IzdYwMQ1lRhoG1-J8cc1IuWk",
-            authDomain: "gamingtournaments-6674d.firebaseapp.com",
-            projectId: "gamingtournaments-6674d",
-            storageBucket: "gamingtournaments-6674d.firebasestorage.app",
-            messagingSenderId: "429975429685",
-            appId: "1:429975429685:web:73c0914152581e99a2477c"
-        };
+    <!-- 2. TOURNAMENT REGISTRATION MODAL -->
+    <div id="registerModal" class="fixed inset-0 z-50 bg-navy-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-lg rounded-2xl border border-skyblue-400/50 p-6 sm:p-8 relative shadow-2xl max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModal('registerModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+            <div class="text-center mb-6">
+                <span class="text-skyblue-400 font-orbitron text-[10px] font-bold tracking-widest uppercase">Official Pre-Registration</span>
+                <h3 class="font-orbitron font-black text-2xl text-white">TOURNAMENT PRE-REGISTRATION</h3>
+                <p class="text-slate-400 text-xs mt-1">Submit your details to lock your team's spot for upcoming matches.</p>
+            </div>
 
-        const form = document.getElementById('registrationForm');
-        const statusDiv = document.getElementById('status');
+            <form id="tournamentRegistrationForm" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Full Name</label>
+                    <input type="text" id="regName" required placeholder="e.g. Zeeshan Ahmed" class="w-full px-4 py-3 rounded-xl bg-navy-950 border border-navy-700 text-white text-sm focus:outline-none focus:border-skyblue-400">
+                </div>
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            statusDiv.style.color = '#f59e0b';
-            statusDiv.innerText = 'Submitting registration...';
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Select Game</label>
+                    <select id="regGame" required class="w-full px-4 py-3 rounded-xl bg-navy-950 border border-navy-700 text-white text-sm focus:outline-none focus:border-skyblue-400">
+                        <option value="Free Fire">Free Fire Mobile</option>
+                        <option value="PUBG Mobile">PUBG Mobile</option>
+                    </select>
+                </div>
 
-            const name = document.getElementById('fullName').value;
-            const game = document.getElementById('gameSelect').value;
-            const gameId = document.getElementById('gameId').value;
-            const whatsapp = document.getElementById('whatsapp').value;
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">In-Game Character ID / UID</label>
+                    <input type="text" id="regUid" required placeholder="e.g. 512345678" class="w-full px-4 py-3 rounded-xl bg-navy-950 border border-navy-700 text-white font-mono text-sm focus:outline-none focus:border-skyblue-400">
+                </div>
 
-            try {
-                await addDoc(collection(db, "registrations"), {
-                    name: name,
-                    game: game,
-                    game_id: gameId,
-                    phone: whatsapp,
-                    timestamp: new Date()
-                });
-                statusDiv.style.color = '#22c55e';
-                statusDiv.innerText = 'Registration Successful! Welcome to MashupSquad.';
-                form.reset();
-            } catch (error) {
-                console.error("Error adding document: ", error);
-                statusDiv.style.color = '#ef4444';
-                statusDiv.innerText = 'Error submitting form. Please try again.';
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">WhatsApp Number (For Room Credentials)</label>
+                    <input type="tel" id="regPhone" required placeholder="03001234567" class="w-full px-4 py-3 rounded-xl bg-navy-950 border border-navy-700 text-white text-sm focus:outline-none focus:border-skyblue-400">
+                </div>
+
+                <div class="bg-navy-950 p-3 rounded-xl border border-navy-800 text-[11px] text-slate-400 flex items-start gap-2">
+                    <i class="fa-solid fa-circle-info text-skyblue-400 mt-0.5"></i>
+                    <span>Room ID & Password details will be communicated directly to your WhatsApp prior to match start.</span>
+                </div>
+
+                <button type="submit" id="submitRegBtn" class="w-full py-4 rounded-xl font-orbitron font-black text-xs tracking-wider bg-gradient-to-r from-skyblue-400 via-skyblue-500 to-skyblue-600 text-navy-950 shadow-neon-blue hover:scale-[1.02] transition duration-300">
+                    SUBMIT PRE-REGISTRATION
+                </button>
+
+                <div id="formStatusMsg" class="text-center text-xs font-bold mt-2"></div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Modal Controls
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        // Auth Tabs Switcher
+        function switchAuthTab(tab) {
+            const signInForm = document.getElementById('signInForm');
+            const signUpForm = document.getElementById('signUpForm');
+            const tabSignIn = document.getElementById('tabSignIn');
+            const tabSignUp = document.getElementById('tabSignUp');
+
+            if(tab === 'signin') {
+                signInForm.classList.remove('hidden');
+                signUpForm.classList.add('hidden');
+                tabSignIn.className = 'flex-1 py-3 text-center border-b-2 border-skyblue-400 text-skyblue-400';
+                tabSignUp.className = 'flex-1 py-3 text-center text-slate-400 hover:text-white';
+            } else {
+                signInForm.classList.add('hidden');
+                signUpForm.classList.remove('hidden');
+                tabSignUp.className = 'flex-1 py-3 text-center border-b-2 border-skyblue-400 text-skyblue-400';
+                tabSignIn.className = 'flex-1 py-3 text-center text-slate-400 hover:text-white';
             }
+        }
+
+        // Mobile Menu Toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // UID Search Functionality
+        document.getElementById('uidSearchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const inputUid = document.getElementById('searchUidInput').value.trim();
+            const statsCard = document.getElementById('playerStatsCard');
+
+            if(inputUid) {
+                document.getElementById('statPlayerUid').innerText = inputUid;
+                document.getElementById('statPlayerName').innerText = "PLAYER_" + inputUid.slice(-4);
+                statsCard.classList.remove('hidden');
+                statsCard.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        // Registration Form Submission Feedback
+        document.getElementById('tournamentRegistrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const statusDiv = document.getElementById('formStatusMsg');
+            const submitBtn = document.getElementById('submitRegBtn');
+
+            statusDiv.className = "text-center text-xs font-bold mt-2 text-amber-400";
+            statusDiv.innerText = "Submitting registration details...";
+            submitBtn.disabled = true;
+
+            setTimeout(() => {
+                statusDiv.className = "text-center text-xs font-bold mt-2 text-emerald-400";
+                statusDiv.innerText = "✓ Pre-Registration Received! We will update you via WhatsApp.";
+                submitBtn.disabled = false;
+                
+                setTimeout(() => {
+                    closeModal('registerModal');
+                    statusDiv.innerText = "";
+                    document.getElementById('tournamentRegistrationForm').reset();
+                }, 2000);
+            }, 1200);
+        });
+
+        // Newsletter Form
+        document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert("Thank you for subscribing to MashupSquad Esports!");
+            this.reset();
         });
     </script>
 </body>
