@@ -768,19 +768,32 @@
             }
         });
 
-        // Registration Form Submission Feedback
-        document.getElementById('tournamentRegistrationForm').addEventListener('submit', function(e) {
+// Registration Form Submission (Firebase Firestore Integration)
+        document.getElementById('tournamentRegistrationForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const statusDiv = document.getElementById('formStatusMsg');
             const submitBtn = document.getElementById('submitRegBtn');
 
             statusDiv.className = "text-center text-xs font-bold mt-2 text-amber-400";
-            statusDiv.innerText = "Submitting registration details...";
+            statusDiv.innerText = "Saving to Firebase...";
             submitBtn.disabled = true;
 
-            setTimeout(() => {
+            const name = document.getElementById('regName').value;
+            const game = document.getElementById('regGame') ? document.getElementById('regGame').value : "Free Fire Mobile";
+            const game_id = document.getElementById('regUid').value;
+            const phone = document.getElementById('regPhone').value;
+
+            try {
+                await addDoc(collection(db, "registrations"), {
+                    name: name,
+                    game: game,
+                    game_id: game_id,
+                    phone: phone,
+                    timestamp: serverTimestamp()
+                });
+
                 statusDiv.className = "text-center text-xs font-bold mt-2 text-emerald-400";
-                statusDiv.innerText = "✓ Pre-Registration Received! We will update you via WhatsApp.";
+                statusDiv.innerText = "✓ Registration Successful! Saved to Firebase.";
                 submitBtn.disabled = false;
                 
                 setTimeout(() => {
@@ -788,9 +801,14 @@
                     statusDiv.innerText = "";
                     document.getElementById('tournamentRegistrationForm').reset();
                 }, 2000);
-            }, 1200);
+            } catch (error) {
+                console.error("Firestore Error:", error);
+                statusDiv.className = "text-center text-xs font-bold mt-2 text-red-400";
+                statusDiv.innerText = "❌ Error: " + error.message;
+                submitBtn.disabled = false;
+            }
         });
-
+        
         // Newsletter Form
         document.getElementById('newsletterForm').addEventListener('submit', function(e) {
             e.preventDefault();
