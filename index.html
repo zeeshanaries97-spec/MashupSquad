@@ -678,7 +678,7 @@
                 <p class="text-slate-400 text-xs mt-1">Submit your details to lock your team's spot for upcoming matches.</p>
             </div>
 
-            <form id="tournamentRegistrationForm" class="space-y-4">
+            <form id="tournamentRegistrationForm" onsubmit="handleRegistration(event)" class="space-y-4">
                 <div>
                     <label class="block text-xs font-semibold text-slate-300 mb-1">Full Name</label>
                     <input type="text" id="regName" required placeholder="e.g. Zeeshan Ahmed" class="w-full px-4 py-3 rounded-xl bg-navy-950 border border-navy-700 text-white text-sm focus:outline-none focus:border-skyblue-400">
