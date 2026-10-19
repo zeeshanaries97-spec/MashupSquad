@@ -787,7 +787,7 @@
     <!-- FIREBASE FIRESTORE REGISTRATION MODULE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCM4tIhI69IzdYwMQ1lRhoG1-J8cc1IuWk",
@@ -801,7 +801,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Registration Form Submission (Firebase Firestore Integration)
+// 1. Registration Form Submission (Firebase Firestore Integration)
         document.getElementById('tournamentRegistrationForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const statusDiv = document.getElementById('formStatusMsg');
@@ -822,6 +822,10 @@
                     game: game,
                     game_id: game_id,
                     phone: phone,
+                    status: "Pending",
+                    matches: 0,
+                    kills: 0,
+                    wins: 0,
                     timestamp: serverTimestamp()
                 });
 
@@ -839,6 +843,80 @@
                 statusDiv.className = "text-center text-xs font-bold mt-2 text-red-400";
                 statusDiv.innerText = "❌ Error: " + error.message;
                 submitBtn.disabled = false;
+            }
+        });
+
+        // 2. Live Search & Status Tracker (Naya Code jo ab add karna hai)
+        document.getElementById('uidSearchForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const inputUid = document.getElementById('searchUidInput').value.trim();
+            const statsCard = document.getElementById('playerStatsCard');
+
+            if (!inputUid) return;
+
+            try {
+                const querySnapshot = await getDocs(collection(db, 'registrations'));
+                let foundPlayer = null;
+
+                querySnapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    if (String(data.game_id).trim() === String(inputUid)) {
+                        foundPlayer = data;
+                    }
+                });
+
+                if (foundPlayer) {
+                    document.getElementById('statPlayerName').innerText = foundPlayer.name || "MASHUP PLAYER";
+                    document.getElementById('statPlayerUid').innerText = foundPlayer.game_id;
+                    document.getElementById('statGameType').innerText = foundPlayer.game || "Free Fire / PUBG";
+
+                    const statusText = foundPlayer.status || "Pending";
+                    const statusTextElem = document.getElementById('statStatusText');
+                    const statusBadgeElem = document.getElementById('statStatusBadge');
+
+                    if (statusTextElem && statusBadgeElem) {
+                        statusTextElem.innerText = "Status: " + statusText;
+                        if (statusText === 'Approved') {
+                            statusBadgeElem.className = "bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-xs font-bold uppercase font-orbitron px-4 py-1.5 rounded-full flex items-center gap-2";
+                        } else if (statusText === 'Rejected') {
+                            statusBadgeElem.className = "bg-red-500/20 text-red-400 border border-red-500/40 text-xs font-bold uppercase font-orbitron px-4 py-1.5 rounded-full flex items-center gap-2";
+                        } else {
+                            statusBadgeElem.className = "bg-yellow-500/20 text-yellow-400 border border-yellow-500/40 text-xs font-bold uppercase font-orbitron px-4 py-1.5 rounded-full flex items-center gap-2";
+                        }
+                    }
+
+                    const matches = foundPlayer.matches || 0;
+                    const kills = foundPlayer.kills || 0;
+                    const wins = foundPlayer.wins || 0;
+                    const winRate = matches > 0 ? ((wins / matches) * 100).toFixed(1) + "%" : "0%";
+
+                    document.getElementById('statMatches').innerText = matches;
+                    document.getElementById('statKills').innerText = kills;
+                    document.getElementById('statWins').innerText = wins;
+                    document.getElementById('statWinRate').innerText = winRate;
+                } else {
+                    document.getElementById('statPlayerName').innerText = "DATA NOT FOUND";
+                    document.getElementById('statPlayerUid').innerText = inputUid;
+                    document.getElementById('statGameType').innerText = "Not Registered";
+                    
+                    const statusTextElem = document.getElementById('statStatusText');
+                    const statusBadgeElem = document.getElementById('statStatusBadge');
+                    if (statusTextElem && statusBadgeElem) {
+                        statusTextElem.innerText = "Not Registered";
+                        statusBadgeElem.className = "bg-red-500/20 text-red-400 border border-red-500/40 text-xs font-bold uppercase font-orbitron px-4 py-1.5 rounded-full flex items-center gap-2";
+                    }
+                    
+                    document.getElementById('statMatches').innerText = "-";
+                    document.getElementById('statKills').innerText = "-";
+                    document.getElementById('statWins').innerText = "-";
+                    document.getElementById('statWinRate').innerText = "-";
+                }
+
+                statsCard.classList.remove('hidden');
+                statsCard.scrollIntoView({ behavior: 'smooth' });
+            } catch (error) {
+                console.error("Search Error:", error);
+                alert("Error searching player data.");
             }
         });
     </script>
