@@ -6,10 +6,45 @@
   <title>MashupSquad Admin Panel</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-900 text-white min-h-screen p-6">
+<body class="bg-gray-900 text-white min-h-screen p-6 flex flex-col items-center justify-center">
 
-  <div class="max-w-5xl mx-auto bg-gray-800 p-6 rounded-lg shadow-xl">
-    <h1 class="text-2xl font-bold text-sky-400 mb-6 text-center">🏆 MashupSquad Registration Management</h1>
+  <!-- 🔒 LOGIN FORM SCREEN -->
+  <div id="loginBox" class="w-full max-w-md bg-gray-800 p-8 rounded-xl shadow-2xl border border-gray-700">
+    <div class="text-center mb-6">
+      <h1 class="text-2xl font-bold text-sky-400">🏆 Admin Access</h1>
+      <p class="text-sm text-gray-400 mt-1">Please login to access tournament control</p>
+    </div>
+
+    <form id="loginForm" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium mb-1 text-gray-300">Username</label>
+        <input type="text" id="adminUser" placeholder="Enter Username" required class="w-full p-2.5 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-sky-400">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-1 text-gray-300">Password</label>
+        <input type="password" id="adminPass" placeholder="Enter Password" required class="w-full p-2.5 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-sky-400">
+      </div>
+
+      <button type="submit" class="w-full bg-sky-500 hover:bg-sky-600 font-bold py-2.5 rounded-lg transition duration-200">
+        Login to Dashboard
+      </button>
+    </form>
+    
+    <div id="loginError" class="mt-4 text-center text-sm font-semibold text-red-400 hidden">
+      ❌ Invalid Username or Password!
+    </div>
+  </div>
+
+  <!-- 📊 ADMIN DASHBOARD SCREEN (Hidden by Default) -->
+  <div id="dashboardBox" class="w-full max-w-5xl bg-gray-800 p-6 rounded-lg shadow-xl hidden">
+    
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold text-sky-400">🏆 MashupSquad Registration Management</h1>
+      <button onclick="logoutAdmin()" class="bg-gray-700 hover:bg-gray-600 text-xs text-gray-300 px-3 py-1.5 rounded-lg border border-gray-600 transition">
+        🔒 Logout
+      </button>
+    </div>
 
     <!-- Header Section -->
     <div class="flex justify-between items-center mb-4">
@@ -42,7 +77,33 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, onSnapshot, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // 🟢 Aapki Exact Firebase Config Keys Connected:
+    // 🔒 Login Credentials
+    const USERNAME = "Zee123";
+    const PASSWORD = "zeesho0o@";
+
+    // Handle Login
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const user = document.getElementById('adminUser').value;
+      const pass = document.getElementById('adminPass').value;
+
+      if (user === USERNAME && pass === PASSWORD) {
+        document.getElementById('loginBox').classList.add('hidden');
+        document.getElementById('dashboardBox').classList.remove('hidden');
+        document.body.classList.remove('flex', 'items-center', 'justify-center');
+        loadFirebaseData();
+      } else {
+        const errDiv = document.getElementById('loginError');
+        errDiv.classList.remove('hidden');
+        setTimeout(() => errDiv.classList.add('hidden'), 3000);
+      }
+    });
+
+    window.logoutAdmin = function() {
+      location.reload();
+    };
+
+    // Firebase Config Keys
     const firebaseConfig = {
       apiKey: "AIzaSyCM4tIhi69IzdYwMQ1lRhoG1-J8cc1IuWk",
       authDomain: "gamingtournaments-6674d.firebaseapp.com",
@@ -57,46 +118,48 @@
     const regCollection = collection(db, 'registrations');
 
     // Real-time Fetch Registrations from Firestore
-    onSnapshot(regCollection, (snapshot) => {
-      const tableBody = document.getElementById('playerTableBody');
-      tableBody.innerHTML = '';
+    function loadFirebaseData() {
+      onSnapshot(regCollection, (snapshot) => {
+        const tableBody = document.getElementById('playerTableBody');
+        tableBody.innerHTML = '';
 
-      if (!snapshot.empty) {
-        snapshot.forEach((docSnap) => {
-          const id = docSnap.id;
-          const data = docSnap.data();
-          const status = data.status || 'Pending';
+        if (!snapshot.empty) {
+          snapshot.forEach((docSnap) => {
+            const id = docSnap.id;
+            const data = docSnap.data();
+            const status = data.status || 'Pending';
 
-          let statusBadge = `<span class="bg-yellow-500/20 text-yellow-400 text-xs px-2.5 py-1 rounded border border-yellow-500/40 font-semibold">Pending</span>`;
-          if (status === 'Approved') {
-            statusBadge = `<span class="bg-green-500/20 text-green-400 text-xs px-2.5 py-1 rounded border border-green-500/40 font-semibold">Approved</span>`;
-          } else if (status === 'Rejected') {
-            statusBadge = `<span class="bg-red-500/20 text-red-400 text-xs px-2.5 py-1 rounded border border-red-500/40 font-semibold">Rejected</span>`;
-          }
+            let statusBadge = `<span class="bg-yellow-500/20 text-yellow-400 text-xs px-2.5 py-1 rounded border border-yellow-500/40 font-semibold">Pending</span>`;
+            if (status === 'Approved') {
+              statusBadge = `<span class="bg-green-500/20 text-green-400 text-xs px-2.5 py-1 rounded border border-green-500/40 font-semibold">Approved</span>`;
+            } else if (status === 'Rejected') {
+              statusBadge = `<span class="bg-red-500/20 text-red-400 text-xs px-2.5 py-1 rounded border border-red-500/40 font-semibold">Rejected</span>`;
+            }
 
-          const row = `
-            <tr class="border-b border-gray-700 hover:bg-gray-750">
-              <td class="p-3 font-medium">${data.name || 'N/A'}</td>
-              <td class="p-3 font-mono text-yellow-400">${data.game_id || 'N/A'}</td>
-              <td class="p-3 font-mono text-gray-300">${data.phone || 'N/A'}</td>
-              <td class="p-3">${data.game || 'N/A'}</td>
-              <td class="p-3">${statusBadge}</td>
-              <td class="p-3 flex gap-2 justify-center">
-                <button onclick="updateStatus('${id}', 'Approved')" class="bg-green-600 hover:bg-green-700 text-white text-xs px-2.5 py-1 rounded font-semibold transition">Approve</button>
-                <button onclick="updateStatus('${id}', 'Rejected')" class="bg-yellow-600 hover:bg-yellow-700 text-white text-xs px-2.5 py-1 rounded font-semibold transition">Reject</button>
-                <button onclick="deleteRegistration('${id}')" class="bg-red-600 hover:bg-red-700 text-white text-xs px-2.5 py-1 rounded font-semibold transition">Delete</button>
-              </td>
-            </tr>
-          `;
-          tableBody.innerHTML += row;
-        });
-      } else {
-        tableBody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-gray-400">No registrations found</td></tr>';
-      }
-    }, (error) => {
-      console.error("Firestore error:", error);
-      document.getElementById('playerTableBody').innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-400">Error loading data: ${error.message}</td></tr>`;
-    });
+            const row = `
+              <tr class="border-b border-gray-700 hover:bg-gray-750">
+                <td class="p-3 font-medium">${data.name || 'N/A'}</td>
+                <td class="p-3 font-mono text-yellow-400">${data.game_id || 'N/A'}</td>
+                <td class="p-3 font-mono text-gray-300">${data.phone || 'N/A'}</td>
+                <td class="p-3">${data.game || 'N/A'}</td>
+                <td class="p-3">${statusBadge}</td>
+                <td class="p-3 flex gap-2 justify-center">
+                  <button onclick="updateStatus('${id}', 'Approved')" class="bg-green-600 hover:bg-green-700 text-white text-xs px-2.5 py-1 rounded font-semibold transition">Approve</button>
+                  <button onclick="updateStatus('${id}', 'Rejected')" class="bg-yellow-600 hover:bg-yellow-700 text-white text-xs px-2.5 py-1 rounded font-semibold transition">Reject</button>
+                  <button onclick="deleteRegistration('${id}')" class="bg-red-600 hover:bg-red-700 text-white text-xs px-2.5 py-1 rounded font-semibold transition">Delete</button>
+                </td>
+              </tr>
+            `;
+            tableBody.innerHTML += row;
+          });
+        } else {
+          tableBody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-gray-400">No registrations found</td></tr>';
+        }
+      }, (error) => {
+        console.error("Firestore error:", error);
+        document.getElementById('playerTableBody').innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-400">Error loading data: ${error.message}</td></tr>`;
+      });
+    }
 
     // Action Functions (Approve/Reject/Delete)
     window.updateStatus = async function(id, newStatus) {
