@@ -491,8 +491,8 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
-                        <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-xs font-bold uppercase font-orbitron px-4 py-1.5 rounded-full flex items-center gap-2">
-                            <i class="fa-solid fa-circle-check"></i> Registration Verified
+                        <span id="statStatusBadge" class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-xs font-bold uppercase font-orbitron px-4 py-1.5 rounded-full flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check"></i> <span id="statStatusText">Registration Verified</span>
                         </span>
                     </div>
                 </div>
@@ -754,17 +754,6 @@
             mobileMenu.classList.toggle('hidden');
         });
 
-       // UID Search Functionality - Data Not Found
-        document.getElementById('uidSearchForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const inputUid = document.getElementById('searchUidInput').value.trim();
-            const statsCard = document.getElementById('playerStatsCard');
-
-            if(inputUid) {
-                document.getElementById('statPlayerUid').innerText = inputUid;
-                document.getElementById('statPlayerName').innerText = "DATA NOT FOUND";
-                document.getElementById('statGameType').innerText = "Not Registered";
-                
                 // Reset metrics to dashes
                 document.getElementById('statMatches').innerText = "-";
                 document.getElementById('statKills').innerText = "-";
