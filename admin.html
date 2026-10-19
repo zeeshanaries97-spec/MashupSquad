@@ -1,9 +1,155 @@
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
-};
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MashupSquad Admin Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen p-6">
+
+  <div class="max-w-3xl mx-auto bg-gray-800 p-6 rounded-lg shadow-xl">
+    <h1 class="text-2xl font-bold text-sky-400 mb-6 text-center">🏆 MashupSquad Admin Panel</h1>
+
+    <!-- Player Entry Form -->
+    <form id="playerForm" class="space-y-4">
+      <div>
+        <label class="block mb-1 text-sm font-medium">Player Name</label>
+        <input type="text" id="playerName" placeholder="Enter Player Name" required class="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white focus:outline-none focus:border-sky-400">
+      </div>
+
+      <div>
+        <label class="block mb-1 text-sm font-medium">Game UID</label>
+        <input type="text" id="playerUID" placeholder="Enter Game UID (e.g. 512345678)" required class="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white focus:outline-none focus:border-sky-400">
+      </div>
+
+      <div>
+        <label class="block mb-1 text-sm font-medium">Squad / Team Name</label>
+        <input type="text" id="squadName" placeholder="Enter Squad Name" required class="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white focus:outline-none focus:border-sky-400">
+      </div>
+
+      <div>
+        <label class="block mb-1 text-sm font-medium">Game Type</label>
+        <select id="gameType" class="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white focus:outline-none focus:border-sky-400">
+          <option value="Free Fire">Free Fire</option>
+          <option value="PUBG Mobile">PUBG Mobile</option>
+        </select>
+      </div>
+
+      <button type="submit" class="w-full bg-sky-500 hover:bg-sky-600 font-bold py-2 rounded transition">
+        ➕ Add Player / Squad Data
+      </button>
+    </form>
+
+    <!-- Status Message -->
+    <div id="statusMsg" class="mt-4 text-center font-semibold hidden"></div>
+
+    <hr class="my-8 border-gray-700">
+
+    <!-- Live Data List -->
+    <h2 class="text-xl font-semibold text-gray-200 mb-4">Registered Players List</h2>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-gray-700 text-sky-300">
+            <th class="p-2 border border-gray-600">Name</th>
+            <th class="p-2 border border-gray-600">UID</th>
+            <th class="p-2 border border-gray-600">Squad</th>
+            <th class="p-2 border border-gray-600">Game</th>
+            <th class="p-2 border border-gray-600">Action</th>
+          </tr>
+        </thead>
+        <tbody id="playerTableBody">
+          <!-- Live Firebase Data will load here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Firebase JavaScript Section -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    // 🔴 REPLACEMENT AREA: Firebase Config Keys Yahan Put Karein
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const playersRef = ref(db, 'players');
+
+    // Add Player Data
+    document.getElementById('playerForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const newPlayer = {
+        name: document.getElementById('playerName').value,
+        uid: document.getElementById('playerUID').value,
+        squad: document.getElementById('squadName').value,
+        game: document.getElementById('gameType').value,
+        timestamp: Date.now()
+      };
+
+      push(playersRef, newPlayer)
+        .then(() => {
+          showStatus("✅ Player data added successfully!", "text-green-400");
+          document.getElementById('playerForm').reset();
+        })
+        .catch((error) => {
+          showStatus("❌ Error: " + error.message, "text-red-400");
+        });
+    });
+
+    // Fetch and Display Data Live
+    onValue(playersRef, (snapshot) => {
+      const tableBody = document.getElementById('playerTableBody');
+      tableBody.innerHTML = '';
+      
+      if (snapshot.exists()) {
+        snapshot.forEach((childSnapshot) => {
+          const key = childSnapshot.key;
+          const data = childSnapshot.val();
+
+          const row = `
+            <tr class="border-b border-gray-700 hover:bg-gray-750">
+              <td class="p-2">${data.name}</td>
+              <td class="p-2 font-mono text-yellow-400">${data.uid}</td>
+              <td class="p-2">${data.squad}</td>
+              <td class="p-2">${data.game}</td>
+              <td class="p-2">
+                <button onclick="deletePlayer('${key}')" class="bg-red-500 hover:bg-red-600 text-xs px-2 py-1 rounded">Delete</button>
+              </td>
+            </tr>
+          `;
+          tableBody.innerHTML += row;
+        });
+      } else {
+        tableBody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-gray-400">No players found</td></tr>';
+      }
+    });
+
+    // Delete Player Function
+    window.deletePlayer = function(key) {
+      if (confirm("Are you sure you want to delete this player?")) {
+        remove(ref(db, 'players/' + key));
+      }
+    };
+
+    function showStatus(msg, colorClass) {
+      const msgDiv = document.getElementById('statusMsg');
+      msgDiv.textContent = msg;
+      msgDiv.className = `mt-4 text-center font-semibold ${colorClass}`;
+      msgDiv.classList.remove('hidden');
+      setTimeout(() => msgDiv.classList.add('hidden'), 3000);
+    }
+  </script>
+</body>
+</html>
