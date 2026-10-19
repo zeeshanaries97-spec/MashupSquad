@@ -8,145 +8,119 @@
 </head>
 <body class="bg-gray-900 text-white min-h-screen p-6">
 
-  <div class="max-w-3xl mx-auto bg-gray-800 p-6 rounded-lg shadow-xl">
-    <h1 class="text-2xl font-bold text-sky-400 mb-6 text-center">🏆 MashupSquad Admin Panel</h1>
+  <div class="max-w-5xl mx-auto bg-gray-800 p-6 rounded-lg shadow-xl">
+    <h1 class="text-2xl font-bold text-sky-400 mb-6 text-center">🏆 MashupSquad Registration Management</h1>
 
-    <!-- Player Entry Form -->
-    <form id="playerForm" class="space-y-4">
-      <div>
-        <label class="block mb-1 text-sm font-medium">Player Name</label>
-        <input type="text" id="playerName" placeholder="Enter Player Name" required class="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white focus:outline-none focus:border-sky-400">
-      </div>
+    <!-- Status Filter -->
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-semibold text-gray-200">Player Registrations</h2>
+      <div id="statusMsg" class="text-sm font-semibold hidden"></div>
+    </div>
 
-      <div>
-        <label class="block mb-1 text-sm font-medium">Game UID</label>
-        <input type="text" id="playerUID" placeholder="Enter Game UID (e.g. 512345678)" required class="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white focus:outline-none focus:border-sky-400">
-      </div>
-
-      <div>
-        <label class="block mb-1 text-sm font-medium">Squad / Team Name</label>
-        <input type="text" id="squadName" placeholder="Enter Squad Name" required class="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white focus:outline-none focus:border-sky-400">
-      </div>
-
-      <div>
-        <label class="block mb-1 text-sm font-medium">Game Type</label>
-        <select id="gameType" class="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white focus:outline-none focus:border-sky-400">
-          <option value="Free Fire">Free Fire</option>
-          <option value="PUBG Mobile">PUBG Mobile</option>
-        </select>
-      </div>
-
-      <button type="submit" class="w-full bg-sky-500 hover:bg-sky-600 font-bold py-2 rounded transition">
-        ➕ Add Player / Squad Data
-      </button>
-    </form>
-
-    <!-- Status Message -->
-    <div id="statusMsg" class="mt-4 text-center font-semibold hidden"></div>
-
-    <hr class="my-8 border-gray-700">
-
-    <!-- Live Data List -->
-    <h2 class="text-xl font-semibold text-gray-200 mb-4">Registered Players List</h2>
+    <!-- Live Data Table -->
     <div class="overflow-x-auto">
       <table class="w-full text-left border-collapse">
         <thead>
           <tr class="bg-gray-700 text-sky-300">
-            <th class="p-2 border border-gray-600">Name</th>
-            <th class="p-2 border border-gray-600">UID</th>
-            <th class="p-2 border border-gray-600">Squad</th>
-            <th class="p-2 border border-gray-600">Game</th>
-            <th class="p-2 border border-gray-600">Action</th>
+            <th class="p-3 border border-gray-600">Name</th>
+            <th class="p-3 border border-gray-600">Game ID</th>
+            <th class="p-3 border border-gray-600">Phone</th>
+            <th class="p-3 border border-gray-600">Game</th>
+            <th class="p-3 border border-gray-600">Status</th>
+            <th class="p-3 border border-gray-600 text-center">Actions</th>
           </tr>
         </thead>
         <tbody id="playerTableBody">
-          <!-- Live Firebase Data will load here -->
+          <tr><td colspan="6" class="p-4 text-center text-gray-400">Loading registrations...</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 
-  <!-- Firebase JavaScript Section -->
+  <!-- Firebase Firestore Script -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    import { getFirestore, collection, onSnapshot, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // 🔴 REPLACEMENT AREA: Firebase Config Keys Yahan Put Karein
+    // 🔴 Step: Apni Firebase Config Keys Yahan Paste Karein
     const firebaseConfig = {
       apiKey: "YOUR_API_KEY",
       authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
-      projectId: "YOUR_PROJECT_ID",
+      projectId: "GamingTournaments",
       storageBucket: "YOUR_PROJECT_ID.appspot.com",
       messagingSenderId: "YOUR_SENDER_ID",
       appId: "YOUR_APP_ID"
     };
 
     const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const playersRef = ref(db, 'players');
+    const db = getFirestore(app);
+    const regCollection = collection(db, 'registrations');
 
-    // Add Player Data
-    document.getElementById('playerForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-      
-      const newPlayer = {
-        name: document.getElementById('playerName').value,
-        uid: document.getElementById('playerUID').value,
-        squad: document.getElementById('squadName').value,
-        game: document.getElementById('gameType').value,
-        timestamp: Date.now()
-      };
-
-      push(playersRef, newPlayer)
-        .then(() => {
-          showStatus("✅ Player data added successfully!", "text-green-400");
-          document.getElementById('playerForm').reset();
-        })
-        .catch((error) => {
-          showStatus("❌ Error: " + error.message, "text-red-400");
-        });
-    });
-
-    // Fetch and Display Data Live
-    onValue(playersRef, (snapshot) => {
+    // Fetch Registrations in Real-time
+    onSnapshot(regCollection, (snapshot) => {
       const tableBody = document.getElementById('playerTableBody');
       tableBody.innerHTML = '';
-      
-      if (snapshot.exists()) {
-        snapshot.forEach((childSnapshot) => {
-          const key = childSnapshot.key;
-          const data = childSnapshot.val();
+
+      if (!snapshot.empty) {
+        snapshot.forEach((docSnap) => {
+          const id = docSnap.id;
+          const data = docSnap.data();
+          const status = data.status || 'Pending';
+
+          let statusBadge = `<span class="bg-yellow-500/20 text-yellow-400 text-xs px-2 py-1 rounded border border-yellow-500/40">Pending</span>`;
+          if (status === 'Approved') {
+            statusBadge = `<span class="bg-green-500/20 text-green-400 text-xs px-2 py-1 rounded border border-green-500/40">Approved</span>`;
+          } else if (status === 'Rejected') {
+            statusBadge = `<span class="bg-red-500/20 text-red-400 text-xs px-2 py-1 rounded border border-red-500/40">Rejected</span>`;
+          }
 
           const row = `
             <tr class="border-b border-gray-700 hover:bg-gray-750">
-              <td class="p-2">${data.name}</td>
-              <td class="p-2 font-mono text-yellow-400">${data.uid}</td>
-              <td class="p-2">${data.squad}</td>
-              <td class="p-2">${data.game}</td>
-              <td class="p-2">
-                <button onclick="deletePlayer('${key}')" class="bg-red-500 hover:bg-red-600 text-xs px-2 py-1 rounded">Delete</button>
+              <td class="p-3 font-medium">${data.name || 'N/A'}</td>
+              <td class="p-3 font-mono text-yellow-400">${data.game_id || 'N/A'}</td>
+              <td class="p-3 font-mono text-gray-300">${data.phone || 'N/A'}</td>
+              <td class="p-3">${data.game || 'N/A'}</td>
+              <td class="p-3">${statusBadge}</td>
+              <td class="p-3 flex gap-2 justify-center">
+                <button onclick="updateStatus('${id}', 'Approved')" class="bg-green-600 hover:bg-green-700 text-white text-xs px-2 py-1 rounded font-semibold transition">Approve</button>
+                <button onclick="updateStatus('${id}', 'Rejected')" class="bg-yellow-600 hover:bg-yellow-700 text-white text-xs px-2 py-1 rounded font-semibold transition">Reject</button>
+                <button onclick="deleteRegistration('${id}')" class="bg-red-600 hover:bg-red-700 text-white text-xs px-2 py-1 rounded font-semibold transition">Delete</button>
               </td>
             </tr>
           `;
           tableBody.innerHTML += row;
         });
       } else {
-        tableBody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-gray-400">No players found</td></tr>';
+        tableBody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-gray-400">No registrations found</td></tr>';
       }
     });
 
-    // Delete Player Function
-    window.deletePlayer = function(key) {
-      if (confirm("Are you sure you want to delete this player?")) {
-        remove(ref(db, 'players/' + key));
+    // Action Functions
+    window.updateStatus = async function(id, newStatus) {
+      try {
+        const docRef = doc(db, 'registrations', id);
+        await updateDoc(docRef, { status: newStatus });
+        showStatus(`Status updated to ${newStatus}`, "text-green-400");
+      } catch (e) {
+        showStatus("Error updating: " + e.message, "text-red-400");
+      }
+    };
+
+    window.deleteRegistration = async function(id) {
+      if (confirm("Are you sure you want to delete this registration?")) {
+        try {
+          await deleteDoc(doc(db, 'registrations', id));
+          showStatus("Registration deleted", "text-red-400");
+        } catch (e) {
+          showStatus("Error deleting: " + e.message, "text-red-400");
+        }
       }
     };
 
     function showStatus(msg, colorClass) {
       const msgDiv = document.getElementById('statusMsg');
       msgDiv.textContent = msg;
-      msgDiv.className = `mt-4 text-center font-semibold ${colorClass}`;
+      msgDiv.className = `text-sm font-semibold ${colorClass}`;
       msgDiv.classList.remove('hidden');
       setTimeout(() => msgDiv.classList.add('hidden'), 3000);
     }
