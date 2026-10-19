@@ -36,17 +36,16 @@
     </div>
   </div>
 
-  <!-- 📊 ADMIN DASHBOARD SCREEN (Hidden by Default) -->
-  <div id="dashboardBox" class="w-full max-w-5xl bg-gray-800 p-6 rounded-lg shadow-xl hidden">
+  <!-- 📊 ADMIN DASHBOARD SCREEN -->
+  <div id="dashboardBox" class="w-full max-w-6xl bg-gray-800 p-6 rounded-lg shadow-xl hidden">
     
     <div class="flex justify-between items-center mb-6">
-      <h1 class="text-2xl font-bold text-sky-400">🏆 MashupSquad Registration Management</h1>
+      <h1 class="text-2xl font-bold text-sky-400">🏆 MashupSquad Registration & Stats Management</h1>
       <button onclick="logoutAdmin()" class="bg-gray-700 hover:bg-gray-600 text-xs text-gray-300 px-3 py-1.5 rounded-lg border border-gray-600 transition">
         🔒 Logout
       </button>
     </div>
 
-    <!-- Header Section -->
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-xl font-semibold text-gray-200">Player Registrations</h2>
       <div id="statusMsg" class="text-sm font-semibold hidden"></div>
@@ -54,19 +53,21 @@
 
     <!-- Live Data Table -->
     <div class="overflow-x-auto">
-      <table class="w-full text-left border-collapse">
+      <table class="w-full text-left border-collapse text-sm">
         <thead>
           <tr class="bg-gray-700 text-sky-300">
             <th class="p-3 border border-gray-600">Name</th>
             <th class="p-3 border border-gray-600">Game ID</th>
-            <th class="p-3 border border-gray-600">Phone</th>
             <th class="p-3 border border-gray-600">Game</th>
             <th class="p-3 border border-gray-600">Status</th>
+            <th class="p-3 border border-gray-600 text-center">Matches</th>
+            <th class="p-3 border border-gray-600 text-center">Kills</th>
+            <th class="p-3 border border-gray-600 text-center">Wins</th>
             <th class="p-3 border border-gray-600 text-center">Actions</th>
           </tr>
         </thead>
         <tbody id="playerTableBody">
-          <tr><td colspan="6" class="p-4 text-center text-gray-400">Loading registrations...</td></tr>
+          <tr><td colspan="8" class="p-4 text-center text-gray-400">Loading registrations...</td></tr>
         </tbody>
       </table>
     </div>
@@ -77,11 +78,9 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, onSnapshot, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // 🔒 Login Credentials
     const USERNAME = "Zee123";
     const PASSWORD = "zeesho0o@";
 
-    // Handle Login
     document.getElementById('loginForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const user = document.getElementById('adminUser').value;
@@ -103,7 +102,6 @@
       location.reload();
     };
 
-    // Firebase Config Keys
     const firebaseConfig = {
       apiKey: "AIzaSyCM4tIhi69IzdYwMQ1lRhoG1-J8cc1IuWk",
       authDomain: "gamingtournaments-6674d.firebaseapp.com",
@@ -117,7 +115,6 @@
     const db = getFirestore(app);
     const regCollection = collection(db, 'registrations');
 
-    // Real-time Fetch Registrations from Firestore
     function loadFirebaseData() {
       onSnapshot(regCollection, (snapshot) => {
         const tableBody = document.getElementById('playerTableBody');
@@ -129,23 +126,36 @@
             const data = docSnap.data();
             const status = data.status || 'Pending';
 
-            let statusBadge = `<span class="bg-yellow-500/20 text-yellow-400 text-xs px-2.5 py-1 rounded border border-yellow-500/40 font-semibold">Pending</span>`;
+            const matches = data.matches || 0;
+            const kills = data.kills || 0;
+            const wins = data.wins || 0;
+
+            let statusBadge = `<span class="bg-yellow-500/20 text-yellow-400 text-xs px-2 py-1 rounded border border-yellow-500/40 font-semibold">Pending</span>`;
             if (status === 'Approved') {
-              statusBadge = `<span class="bg-green-500/20 text-green-400 text-xs px-2.5 py-1 rounded border border-green-500/40 font-semibold">Approved</span>`;
+              statusBadge = `<span class="bg-green-500/20 text-green-400 text-xs px-2 py-1 rounded border border-green-500/40 font-semibold">Approved</span>`;
             } else if (status === 'Rejected') {
-              statusBadge = `<span class="bg-red-500/20 text-red-400 text-xs px-2.5 py-1 rounded border border-red-500/40 font-semibold">Rejected</span>`;
+              statusBadge = `<span class="bg-red-500/20 text-red-400 text-xs px-2 py-1 rounded border border-red-500/40 font-semibold">Rejected</span>`;
             }
 
             const row = `
               <tr class="border-b border-gray-700 hover:bg-gray-750">
                 <td class="p-3 font-medium">${data.name || 'N/A'}</td>
                 <td class="p-3 font-mono text-yellow-400">${data.game_id || 'N/A'}</td>
-                <td class="p-3 font-mono text-gray-300">${data.phone || 'N/A'}</td>
                 <td class="p-3">${data.game || 'N/A'}</td>
                 <td class="p-3">${statusBadge}</td>
-                <td class="p-3 flex gap-2 justify-center">
-                  <button onclick="updateStatus('${id}', 'Approved')" class="bg-green-600 hover:bg-green-700 text-white text-xs px-2.5 py-1 rounded font-semibold transition">Approve</button>
-                  <button onclick="updateStatus('${id}', 'Rejected')" class="bg-yellow-600 hover:bg-yellow-700 text-white text-xs px-2.5 py-1 rounded font-semibold transition">Reject</button>
+                <td class="p-2 text-center">
+                  <input type="number" value="${matches}" id="m_${id}" class="w-14 bg-gray-700 border border-gray-600 rounded text-center p-1 text-xs">
+                </td>
+                <td class="p-2 text-center">
+                  <input type="number" value="${kills}" id="k_${id}" class="w-14 bg-gray-700 border border-gray-600 rounded text-center p-1 text-xs">
+                </td>
+                <td class="p-2 text-center">
+                  <input type="number" value="${wins}" id="w_${id}" class="w-14 bg-gray-700 border border-gray-600 rounded text-center p-1 text-xs">
+                </td>
+                <td class="p-3 flex gap-1 justify-center items-center">
+                  <button onclick="saveStats('${id}')" class="bg-blue-600 hover:bg-blue-700 text-white text-xs px-2 py-1 rounded font-semibold transition" title="Save Stats">💾 Save Stats</button>
+                  <button onclick="updateStatus('${id}', 'Approved')" class="bg-green-600 hover:bg-green-700 text-white text-xs px-2 py-1 rounded font-semibold transition">Approve</button>
+                  <button onclick="updateStatus('${id}', 'Rejected')" class="bg-yellow-600 hover:bg-yellow-700 text-white text-xs px-2 py-1 rounded font-semibold transition">Reject</button>
                   <button onclick="deleteRegistration('${id}')" class="bg-red-600 hover:bg-red-700 text-white text-xs px-2.5 py-1 rounded font-semibold transition">Delete</button>
                 </td>
               </tr>
@@ -153,15 +163,27 @@
             tableBody.innerHTML += row;
           });
         } else {
-          tableBody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-gray-400">No registrations found</td></tr>';
+          tableBody.innerHTML = '<tr><td colspan="8" class="p-4 text-center text-gray-400">No registrations found</td></tr>';
         }
-      }, (error) => {
-        console.error("Firestore error:", error);
-        document.getElementById('playerTableBody').innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-400">Error loading data: ${error.message}</td></tr>`;
       });
     }
 
-    // Action Functions (Approve/Reject/Delete)
+    // Save Stats (Matches, Kills, Wins)
+    window.saveStats = async function(id) {
+      try {
+        const matches = parseInt(document.getElementById(`m_${id}`).value) || 0;
+        const kills = parseInt(document.getElementById(`k_${id}`).value) || 0;
+        const wins = parseInt(document.getElementById(`w_${id}`).value) || 0;
+
+        const docRef = doc(db, 'registrations', id);
+        await updateDoc(docRef, { matches, kills, wins });
+        showStatus("✅ Stats updated successfully!", "text-green-400");
+      } catch (e) {
+        showStatus("Error updating stats: " + e.message, "text-red-400");
+      }
+    };
+
+    // Action Functions
     window.updateStatus = async function(id, newStatus) {
       try {
         const docRef = doc(db, 'registrations', id);
