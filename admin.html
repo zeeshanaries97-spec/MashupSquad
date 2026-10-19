@@ -11,7 +11,7 @@
   <div class="max-w-5xl mx-auto bg-gray-800 p-6 rounded-lg shadow-xl">
     <h1 class="text-2xl font-bold text-sky-400 mb-6 text-center">🏆 MashupSquad Registration Management</h1>
 
-    <!-- Status Filter -->
+    <!-- Header Section -->
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-xl font-semibold text-gray-200">Player Registrations</h2>
       <div id="statusMsg" class="text-sm font-semibold hidden"></div>
@@ -42,21 +42,21 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, onSnapshot, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // 🔴 Step: Apni Firebase Config Keys Yahan Paste Karein
+    // 🟢 Aapki Exact Firebase Config Keys Connected:
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "GamingTournaments",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
+      apiKey: "AIzaSyCM4tIhi69IzdYwMQ1lRhoG1-J8cc1IuWk",
+      authDomain: "gamingtournaments-6674d.firebaseapp.com",
+      projectId: "gamingtournaments-6674d",
+      storageBucket: "gamingtournaments-6674d.firebasestorage.app",
+      messagingSenderId: "429975429685",
+      appId: "1:429975429685:web:73c0914152581e99a2477c"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const regCollection = collection(db, 'registrations');
 
-    // Fetch Registrations in Real-time
+    // Real-time Fetch Registrations from Firestore
     onSnapshot(regCollection, (snapshot) => {
       const tableBody = document.getElementById('playerTableBody');
       tableBody.innerHTML = '';
@@ -67,11 +67,11 @@
           const data = docSnap.data();
           const status = data.status || 'Pending';
 
-          let statusBadge = `<span class="bg-yellow-500/20 text-yellow-400 text-xs px-2 py-1 rounded border border-yellow-500/40">Pending</span>`;
+          let statusBadge = `<span class="bg-yellow-500/20 text-yellow-400 text-xs px-2.5 py-1 rounded border border-yellow-500/40 font-semibold">Pending</span>`;
           if (status === 'Approved') {
-            statusBadge = `<span class="bg-green-500/20 text-green-400 text-xs px-2 py-1 rounded border border-green-500/40">Approved</span>`;
+            statusBadge = `<span class="bg-green-500/20 text-green-400 text-xs px-2.5 py-1 rounded border border-green-500/40 font-semibold">Approved</span>`;
           } else if (status === 'Rejected') {
-            statusBadge = `<span class="bg-red-500/20 text-red-400 text-xs px-2 py-1 rounded border border-red-500/40">Rejected</span>`;
+            statusBadge = `<span class="bg-red-500/20 text-red-400 text-xs px-2.5 py-1 rounded border border-red-500/40 font-semibold">Rejected</span>`;
           }
 
           const row = `
@@ -82,9 +82,9 @@
               <td class="p-3">${data.game || 'N/A'}</td>
               <td class="p-3">${statusBadge}</td>
               <td class="p-3 flex gap-2 justify-center">
-                <button onclick="updateStatus('${id}', 'Approved')" class="bg-green-600 hover:bg-green-700 text-white text-xs px-2 py-1 rounded font-semibold transition">Approve</button>
-                <button onclick="updateStatus('${id}', 'Rejected')" class="bg-yellow-600 hover:bg-yellow-700 text-white text-xs px-2 py-1 rounded font-semibold transition">Reject</button>
-                <button onclick="deleteRegistration('${id}')" class="bg-red-600 hover:bg-red-700 text-white text-xs px-2 py-1 rounded font-semibold transition">Delete</button>
+                <button onclick="updateStatus('${id}', 'Approved')" class="bg-green-600 hover:bg-green-700 text-white text-xs px-2.5 py-1 rounded font-semibold transition">Approve</button>
+                <button onclick="updateStatus('${id}', 'Rejected')" class="bg-yellow-600 hover:bg-yellow-700 text-white text-xs px-2.5 py-1 rounded font-semibold transition">Reject</button>
+                <button onclick="deleteRegistration('${id}')" class="bg-red-600 hover:bg-red-700 text-white text-xs px-2.5 py-1 rounded font-semibold transition">Delete</button>
               </td>
             </tr>
           `;
@@ -93,9 +93,12 @@
       } else {
         tableBody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-gray-400">No registrations found</td></tr>';
       }
+    }, (error) => {
+      console.error("Firestore error:", error);
+      document.getElementById('playerTableBody').innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-400">Error loading data: ${error.message}</td></tr>`;
     });
 
-    // Action Functions
+    // Action Functions (Approve/Reject/Delete)
     window.updateStatus = async function(id, newStatus) {
       try {
         const docRef = doc(db, 'registrations', id);
