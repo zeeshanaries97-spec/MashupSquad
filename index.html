@@ -156,14 +156,16 @@
             </button>
         </div>
 
-        <!-- Mobile Menu Dropdown -->
+       <!-- Mobile Menu Dropdown -->
         <div id="mobileMenu" class="hidden md:hidden mt-4 pt-4 border-t border-navy-700/60 flex flex-col space-y-3 font-medium text-sm">
-            <a href="#tournaments" class="hover:text-skyblue-400 py-1 flex items-center gap-2"><i class="fa-solid fa-trophy text-skyblue-400"></i> Tournaments</a>
-            <a href="#tracker" class="hover:text-skyblue-400 py-1 flex items-center gap-2"><i class="fa-solid fa-crosshair text-skyblue-400"></i> Player Lobby & Stats</a>
-            <a href="#community" class="hover:text-skyblue-400 py-1 flex items-center gap-2"><i class="fa-brands fa-discord text-skyblue-400"></i> Community</a>
+            <a href="#tournaments" onclick="closeMobileMenu()" class="hover:text-skyblue-400 py-1 flex items-center gap-2"><i class="fa-solid fa-trophy text-skyblue-400"></i> Tournaments</a>
+            <a href="#tracker" onclick="closeMobileMenu()" class="hover:text-skyblue-400 py-1 flex items-center gap-2"><i class="fa-solid fa-crosshair text-skyblue-400"></i> Player Lobby & Stats</a>
+            <a href="news.html" onclick="closeMobileMenu()" class="hover:text-skyblue-400 py-1 flex items-center gap-2"><i class="fa-solid fa-newspaper text-skyblue-400"></i> News & Updates</a>
+            <a href="#community" onclick="closeMobileMenu()" class="hover:text-skyblue-400 py-1 flex items-center gap-2"><i class="fa-brands fa-discord text-skyblue-400"></i> Community</a>
+    
             <div class="pt-3 border-t border-navy-700/60 flex flex-col gap-2">
-                <button onclick="openModal('authModal')" class="w-full py-2.5 rounded-lg text-xs font-bold font-orbitron text-skyblue-300 border border-skyblue-500/40 text-center">SIGN IN / SIGN UP</button>
-                <button onclick="openModal('registerModal')" class="w-full py-2.5 rounded-lg text-xs font-bold font-orbitron bg-skyblue-400 text-navy-950 font-black text-center shadow-neon-sm">GO TO LOBBY</button>
+                <button onclick="closeMobileMenu(); openModal('authModal')" class="w-full py-2.5 rounded-lg text-xs font-bold font-orbitron text-skyblue-300 border border-skyblue-500/40 text-center">SIGN IN / SIGN UP</button>
+                <button onclick="closeMobileMenu(); openModal('registerModal')" class="w-full py-2.5 rounded-lg text-xs font-bold font-orbitron bg-skyblue-400 text-navy-950 font-black text-center shadow-neon-sm">GO TO LOBBY</button>
             </div>
         </div>
     </nav>
@@ -769,22 +771,21 @@
             }
         }
 
-        // Mobile Menu Toggle
-        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-            const mobileMenu = document.getElementById('mobileMenu');
-            mobileMenu.classList.toggle('hidden');
-        });
+        // Mobile Menu Controls
+                const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+                const mobileMenu = document.getElementById('mobileMenu');
 
-                // Reset metrics to dashes
-                document.getElementById('statMatches').innerText = "-";
-                document.getElementById('statKills').innerText = "-";
-                document.getElementById('statWins').innerText = "-";
-                document.getElementById('statWinRate').innerText = "-";
+                if (mobileMenuBtn && mobileMenu) {
+                    mobileMenuBtn.addEventListener('click', function() {
+                        mobileMenu.classList.toggle('hidden');
+                    });
+                }
 
-                statsCard.classList.remove('hidden');
-                statsCard.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
+                function closeMobileMenu() {
+                    if (mobileMenu) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
         
         // Newsletter Form
         document.getElementById('newsletterForm').addEventListener('submit', function(e) {
