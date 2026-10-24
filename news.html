@@ -1,14 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>News & Updates - MashupSquad Arena</title>
+    <title>News & Updates - MashupSquad Esports Arena</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        skyblue: {
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Exact Gaming Grid Background Pattern */
+        .bg-grid-pattern {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(56, 189, 248, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(56, 189, 248, 0.05) 1px, transparent 1px);
+        }
+    </style>
 </head>
-<body class="bg-slate-900 text-white min-h-screen flex flex-col items-center justify-center">
-    <h1 class="text-4xl font-bold text-sky-400 mb-4">News & Updates</h1>
-    <p class="text-slate-400">Latest Esports Tournaments & Announcements Coming Soon!</p>
-    <a href="/" class="mt-6 px-4 py-2 bg-sky-500 rounded-lg hover:bg-sky-600 transition">Go Back Home</a>
-</body>
-</html>
+<body class="bg-[#0b0f19] text-slate-100 min-h-screen flex flex-col font-sans antialiased bg-grid-pattern selection:bg-skyblue-500 selection:text-white">
+
+    <!-- Top Announcement Bar (Exact Match from Screenshot) -->
+    <div class="bg-skyblue-600/10 border-b border-skyblue-500/20 text-center py-2 px-4 text-xs font-semibold tracking-wider text-skyblue-400 flex items-center justify-center gap-2 flex-wrap">
+        <span class="bg-skyblue-500 text-slate-950 px-2.5 py-0.5 rounded-full uppercase text-[10px] font-black shadow-sm">Upcoming Events</span> 
+        NEW TOURNAMENTS ANNOUNCEMENT - REGISTRATIONS OPENING SOON! 
+        <a href="/" class="underline hover:text-white font-bold ml-1">Pre-Register</a>
+    </div>
+
+    <!-- Header Navigation (Exact Match from Screenshot) -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-[#0b0f19]/90 border-b border-slate-800/80 px-4 lg:px-8 py-3.5">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Logo -->
+            <a href="/" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-skyblue-500 flex items-center justify-center font-black text-slate-950 text-xl shadow-lg shadow-skyblue-500/20 group-hover:scale-105 transition">
+                    M
+                </div>
+                <div>
+                    <span class="text-xl font-black tracking-widest text-white">MASHUPSQUAD</span>
+                    <span class="block text-[10px] font-bold tracking-widest text-skyblue-400 uppercase -mt-1">Esports Arena</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center space-x-6 lg:space-x-8 font-medium text-sm text-slate-300">
+                <a href="/#tournaments" class="hover:text-skyblue-400 transition flex items-center gap-1.5"><i class="fa-solid fa-trophy text-xs text-skyblue-400"></i> Tournaments</a>
+                <a href="/#tracker" class="hover:text-skyblue-400 transition flex items-center gap-1.5"><i class="fa-solid fa-crosshair text-xs text-skyblue-400"></i> Player Lobby</a>
+                <a href="news.html" class="text-skyblue-400 font-bold flex items-center gap-1.5"><i class="fa-solid fa-newspaper text-xs"></i> News & Updates</a>
+                <a href="/#community" class="hover:text-skyblue-400 transition flex items-center gap-1.5"><i class="fa-brands fa-discord text-xs text-skyblue-400"></i> Community</a>
+            </nav>
+
+            <!-- Action Buttons (Sign In & Go To Lobby matching screenshot) -->
+            <div class="hidden sm:flex items-center space-x-3">
+                <a href="/" class="px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-200 bg-slate-900 border border-slate-700 hover:border-skyblue-400 rounded-xl transition flex items-center gap-2">
+                    <i class="fa-solid fa-right-to-bracket"></i> Sign In
+                </a>
+                <a href="/" class="px-5 py-2 text-xs font-bold uppercase tracking-wider text-slate-950 bg-skyblue-500 hover:bg-skyblue-400 rounded-xl shadow-lg shadow-skyblue-500/25 transition flex items-center gap-2 transform active:scale-95">
+                    <i class="fa-solid fa-gamepad"></i> Go To Lobby
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 lg:px-8 py-12">
+        
+        <!-- Hero Section -->
+        <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-skyblue-500/10 border border-skyblue-500/30 text-skyblue-400 text-xs font-semibold uppercase tracking-widest shadow-inner">
+                <i class="fa-solid fa-bullhorn"></i> Official Announcements
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black tracking-tight text-white drop-shadow-md">
+                NEWS & <span class="text-skyblue-400">UPDATES</span>
+            </h1>
+            <p class="text-slate-400 text-sm md:text-base leading-relaxed">
+                Stay updated with the latest PUBG Mobile & Free Fire custom scrim schedules, patch notes, and esports updates.
+            </p>
+        </div>
+
+        <!-- News Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- Card 1 -->
+            <div class="bg-slate-900/80 border border-slate-800/80 rounded-2xl overflow-hidden hover:border-skyblue-500/50 transition duration-300 group flex flex-col shadow-xl">
+                <div class="h-44 bg-slate-950 relative overflow-hidden flex items-center justify-center border-b border-slate-800/50">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent z-10"></div>
+                    <i class="fa-solid fa-trophy text-6xl text-skyblue-500/10 group-hover:scale-110 transition duration-300"></i>
+                    <span class="absolute top-4 left-4 z-20 bg-skyblue-500 text-slate-950 font-black text-[10px] uppercase px-3 py-1 rounded-lg tracking-wider shadow-md">PUBG Mobile</span>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <span class="text-xs font-medium text-slate-400 mb-2 flex items-center gap-1.5"><i class="fa-regular fa-calendar text-skyblue-400"></i> October 24, 2026</span>
+                    <h2 class="text-lg font-bold text-white group-hover:text-skyblue-400 transition mb-3">Weekly Custom Scrims Season 3 Open</h2>
+                    <p class="text-slate-400 text-xs leading-relaxed flex-grow">Registrations for the ultimate battleground custom scrims are live now. Claim your slot early.</p>
+                    <div class="mt-5 pt-4 border-t border-slate-800/80 flex justify-between items-center text-xs">
+                        <span class="text-skyblue-400 font-bold hover:underline cursor-pointer flex items-center gap-1.5">Read Full Details <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                    </div>
