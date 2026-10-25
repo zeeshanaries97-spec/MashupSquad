@@ -9,16 +9,22 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
-    <script>
+<script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        skyblue: {
-                            400: '#38bdf8',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                        }
+                        navy: { 950: '#070b14', 900: '#0b0f19', 800: '#0f172a', 700: '#1e293b', 600: '#334155' },
+                        skyblue: { 300: '#7dd3fc', 400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7', glow: '#00d2ff' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Orbitron', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'neon-blue': '0 0 25px rgba(0, 210, 255, 0.4)',
+                        'neon-sm': '0 0 10px rgba(0, 210, 255, 0.3)',
+                        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)'
                     }
                 }
             }
