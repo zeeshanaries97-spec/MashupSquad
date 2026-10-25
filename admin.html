@@ -229,6 +229,40 @@
       msgDiv.classList.remove('hidden');
       setTimeout(() => msgDiv.classList.add('hidden'), 3000);
     }
+// Manual Entry Submission Logic
+    document.getElementById('manualEntryForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('manualSubmitBtn');
+      btn.disabled = true;
+
+      const name = document.getElementById('manualName').value;
+      const game_id = document.getElementById('manualUid').value;
+      const game = document.getElementById('manualGame').value;
+      const phone = document.getElementById('manualPhone').value || "Manual Entry";
+
+      try {
+        await addDoc(collection(db, "registrations"), {
+          name: name,
+          game_id: game_id,
+          game: game,
+          phone: phone,
+          status: "Approved",
+          matches: 0,
+          kills: 0,
+          wins: 0,
+          timestamp: serverTimestamp()
+        });
+
+        showStatus("✅ Manual entry added successfully!", "text-green-400");
+        document.getElementById('manualEntryForm').reset();
+        btn.disabled = false;
+      } catch (error) {
+        console.error("Error adding manual entry:", error);
+        showStatus("❌ Error: " + error.message, "text-red-400");
+        btn.disabled = false;
+      }
+    });
+    
   </script>
 </body>
 </html>
