@@ -930,7 +930,7 @@
             }
         });
     </script>
-    <!-- 🚧 Under Development Notice Popup -->
+<!-- 🚧 Under Development Notice Popup (English Version) -->
 <div id="devPopup" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden px-4">
     <div class="max-w-md w-full bg-slate-900 border border-skyblue-500/40 rounded-2xl p-6 shadow-2xl text-center space-y-4 relative animate-fade-in">
         
@@ -942,17 +942,17 @@
         <!-- Heading -->
         <div>
             <span class="text-[10px] uppercase font-bold tracking-widest bg-skyblue-500/20 text-skyblue-400 px-2.5 py-1 rounded-full border border-skyblue-500/30">Active Development</span>
-            <h3 class="text-xl font-black text-white mt-2">Website Under Construction</h3>
+            <h3 class="text-xl font-black text-white mt-2">Platform Under Improvement</h3>
         </div>
 
         <!-- Message -->
         <p class="text-xs text-slate-300 leading-relaxed">
-            MashupSquad live hai aur tournaments active hain, lekin background mein mazeed features aur updates par kaam chal raha hai. Agar aapko browsing ke dauran koi mushkil ya takleef aaye toh uske liye mazrat! 
+            MashupSquad is live and tournaments are fully functional! However, we are continuously adding new features and performance enhancements in the background. We apologize for any minor inconvenience caused during your visit.
         </p>
 
         <!-- Action Button -->
         <button onclick="closeDevPopup()" class="w-full py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-950 bg-skyblue-500 hover:bg-skyblue-400 transition shadow-lg shadow-skyblue-500/25">
-            Samajh aa gaya (Got It)
+            Understood (Got It)
         </button>
     </div>
 </div>
@@ -960,12 +960,16 @@
 <!-- Script to handle Popup -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Check if user already closed it in this session
         if (!localStorage.getItem('devPopupClosed')) {
             document.getElementById('devPopup').classList.remove('hidden');
         }
     });
 
+    function closeDevPopup() {
+        document.getElementById('devPopup').classList.add('hidden');
+        localStorage.setItem('devPopupClosed', 'true');
+    }
+</script>
     function closeDevPopup() {
         document.getElementById('devPopup').classList.add('hidden');
         // Save state in localStorage so it doesn't pop up on every click
