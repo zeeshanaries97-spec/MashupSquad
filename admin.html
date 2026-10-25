@@ -50,7 +50,24 @@
       <h2 class="text-xl font-semibold text-gray-200">Player Registrations</h2>
       <div id="statusMsg" class="text-sm font-semibold hidden"></div>
     </div>
-
+<!-- MANUAL REGISTRATION FORM -->
+    <div class="bg-gray-700/50 p-4 rounded-xl mb-6 border border-gray-600">
+      <h3 class="font-bold text-sky-400 mb-3 text-sm flex items-center gap-2">
+        ➕ Add Manual Player / Team Entry
+      </h3>
+      <form id="manualEntryForm" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+        <input type="text" id="manualName" placeholder="Player/Leader Name" required class="p-2 bg-gray-700 border border-gray-600 rounded text-xs text-white focus:outline-none focus:border-sky-400">
+        <input type="text" id="manualUid" placeholder="Game Character ID / UID" required class="p-2 bg-gray-700 border border-gray-600 rounded text-xs font-mono text-white focus:outline-none focus:border-sky-400">
+        <select id="manualGame" class="p-2 bg-gray-700 border border-gray-600 rounded text-xs text-white focus:outline-none focus:border-sky-400">
+          <option value="Free Fire">Free Fire Mobile</option>
+          <option value="PUBG Mobile">PUBG Mobile</option>
+        </select>
+        <input type="tel" id="manualPhone" placeholder="WhatsApp Number" class="p-2 bg-gray-700 border border-gray-600 rounded text-xs text-white focus:outline-none focus:border-sky-400">
+        <button type="submit" id="manualSubmitBtn" class="bg-sky-500 hover:bg-sky-600 font-bold text-xs py-2 px-3 rounded transition text-gray-950">
+          Add Entry
+        </button>
+      </form>
+    </div>
     <!-- Live Data Table -->
     <div class="overflow-x-auto">
       <table class="w-full text-left border-collapse text-sm">
@@ -76,7 +93,7 @@
   <!-- Firebase Firestore Script -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, onSnapshot, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const USERNAME = "Zee123";
     const PASSWORD = "zeesho0o@";
