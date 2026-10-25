@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <script>
         tailwind.config = {
             theme: {
@@ -80,7 +81,57 @@
             </div>
         </div>
     </header>
+<!-- Header Navigation -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-[#0b0f19]/90 border-b border-slate-800/80 px-4 lg:px-8 py-3.5">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Logo -->
+            <a href="/" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-skyblue-500 flex items-center justify-center font-black text-slate-950 text-xl shadow-lg shadow-skyblue-500/20 group-hover:scale-105 transition">
+                    M
+                </div>
+                <div>
+                    <span class="text-xl font-black tracking-widest text-white">MASHUPSQUAD</span>
+                    <span class="block text-[10px] font-bold tracking-widest text-skyblue-400 uppercase -mt-1">Esports Arena</span>
+                </div>
+            </a>
 
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center space-x-6 lg:space-x-8 font-medium text-sm text-slate-300">
+                <a href="/#tournaments" class="hover:text-skyblue-400 transition flex items-center gap-1.5"><i class="fa-solid fa-trophy text-xs text-skyblue-400"></i> Tournaments</a>
+                <a href="#tracker" class="hover:text-skyblue-400 transition flex items-center gap-1.5"><i class="fa-solid fa-id-card text-xs text-skyblue-400"></i> Player Lobby</a>
+                <a href="news.html" class="text-skyblue-400 font-bold flex items-center gap-1.5"><i class="fa-solid fa-newspaper text-xs"></i> News & Updates</a>
+                <a href="/#community" class="hover:text-skyblue-400 transition flex items-center gap-1.5"><i class="fa-brands fa-discord text-xs text-skyblue-400"></i> Community</a>
+            </nav>
+
+            <!-- Action Buttons -->
+            <div class="hidden sm:flex items-center space-x-3">
+                <a href="/" class="px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-200 bg-slate-900 border border-slate-700 hover:border-skyblue-400 rounded-xl transition flex items-center gap-2">
+                    <i class="fa-solid fa-right-to-bracket"></i> Sign In
+                </a>
+                <a href="/" class="px-5 py-2 text-xs font-bold uppercase tracking-wider text-slate-950 bg-skyblue-500 hover:bg-skyblue-400 rounded-xl shadow-lg shadow-skyblue-500/25 transition flex items-center gap-2 transform active:scale-95">
+                    <i class="fa-solid fa-gamepad"></i> Go To Lobby
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle Button (Yahan add kiya hai) -->
+            <button id="mobileMenuBtn" class="md:hidden text-slate-300 hover:text-skyblue-400 text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Dropdown (Yahan add kiya hai) -->
+        <div id="mobileMenu" class="hidden md:hidden mt-4 pt-4 border-t border-slate-800 flex flex-col space-y-3 font-medium text-sm">
+            <a href="/#tournaments" onclick="closeMobileMenu()" class="hover:text-skyblue-400 py-1 flex items-center gap-2"><i class="fa-solid fa-trophy text-skyblue-400"></i> Tournaments</a>
+            <a href="/#tracker" onclick="closeMobileMenu()" class="hover:text-skyblue-400 py-1 flex items-center gap-2"><i class="fa-solid fa-id-card text-skyblue-400"></i> Player Lobby</a>
+            <a href="news.html" onclick="closeMobileMenu()" class="text-skyblue-400 font-bold py-1 flex items-center gap-2"><i class="fa-solid fa-newspaper text-skyblue-400"></i> News & Updates</a>
+            <a href="/#community" onclick="closeMobileMenu()" class="hover:text-skyblue-400 py-1 flex items-center gap-2"><i class="fa-brands fa-discord text-skyblue-400"></i> Community</a>
+    
+            <div class="pt-3 border-t border-slate-800 flex flex-col gap-2">
+                <a href="/" onclick="closeMobileMenu()" class="w-full py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-200 bg-slate-900 border border-slate-700 text-center">Sign In</a>
+                <a href="/" onclick="closeMobileMenu()" class="w-full py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-950 bg-skyblue-500 text-center">Go To Lobby</a>
+            </div>
+        </div>
+    </header>
     <!-- Main Content Area -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 lg:px-8 py-10 space-y-16">
         
@@ -241,6 +292,21 @@
             <a href="/#community" class="hover:text-skyblue-400 transition">Community</a>
         </div>
     </footer>
+<script>
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
 
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        function closeMobileMenu() {
+            if (mobileMenu) {
+                mobileMenu.classList.add('hidden');
+            }
+        }
+    </script>
 </body>
 </html>
