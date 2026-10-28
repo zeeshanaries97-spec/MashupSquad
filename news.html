@@ -276,5 +276,22 @@
             }
         }
     </script>
+<!-- Script to handle Popup -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const popup = document.getElementById('devPopup');
+        if (popup) {
+            popup.classList.remove('hidden');
+        }
+    });
+
+    function closeDevPopup() {
+        const popup = document.getElementById('devPopup');
+        if (popup) {
+            popup.classList.add('hidden');
+        }
+    }
+</script>
+    
 </body>
 </html>
