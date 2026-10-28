@@ -971,14 +971,14 @@
     }
 <script>
         document.addEventListener("DOMContentLoaded", function() {
-            if (!localStorage.getItem('devPopupClosed')) {
+            if (!localStorage.getItem('devPopupClosed_v2')) {
                 document.getElementById('devPopup').classList.remove('hidden');
             }
         });
 
         function closeDevPopup() {
             document.getElementById('devPopup').classList.add('hidden');
-            localStorage.setItem('devPopupClosed', 'true');
+            localStorage.setItem('devPopupClosed_v2', 'true');
         }
     </script>
 </body>
