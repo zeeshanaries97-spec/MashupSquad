@@ -969,12 +969,17 @@
         document.getElementById('devPopup').classList.add('hidden');
         localStorage.setItem('devPopupClosed', 'true');
     }
-</script>
-    function closeDevPopup() {
-        document.getElementById('devPopup').classList.add('hidden');
-        // Save state in localStorage so it doesn't pop up on every click
-        localStorage.setItem('devPopupClosed', 'true');
-    }
-</script>
+<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if (!localStorage.getItem('devPopupClosed')) {
+                document.getElementById('devPopup').classList.remove('hidden');
+            }
+        });
+
+        function closeDevPopup() {
+            document.getElementById('devPopup').classList.add('hidden');
+            localStorage.setItem('devPopupClosed', 'true');
+        }
+    </script>
 </body>
 </html>
