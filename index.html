@@ -960,26 +960,18 @@
 <!-- Script to handle Popup -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        if (!localStorage.getItem('devPopupClosed')) {
-            document.getElementById('devPopup').classList.remove('hidden');
+        const popup = document.getElementById('devPopup');
+        if (popup) {
+            popup.classList.remove('hidden');
         }
     });
 
     function closeDevPopup() {
-        document.getElementById('devPopup').classList.add('hidden');
-        localStorage.setItem('devPopupClosed', 'true');
-    }
-<script>
-        document.addEventListener("DOMContentLoaded", function() {
-            if (!localStorage.getItem('devPopupClosed_v2')) {
-                document.getElementById('devPopup').classList.remove('hidden');
-            }
-        });
-
-        function closeDevPopup() {
-            document.getElementById('devPopup').classList.add('hidden');
-            localStorage.setItem('devPopupClosed_v2', 'true');
+        const popup = document.getElementById('devPopup');
+        if (popup) {
+            popup.classList.add('hidden');
         }
-    </script>
+    }
+</script>
 </body>
 </html>
