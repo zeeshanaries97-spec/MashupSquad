@@ -930,9 +930,9 @@
             }
         });
     </script>
-<!-- 🚧 Under Development Notice Popup (English Version) -->
-<div id="devPopup" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm hidden px-4">
-    <div class="max-w-md w-full bg-slate-900 border border-skyblue-500/40 rounded-2xl p-6 shadow-2xl text-center space-y-4 relative animate-fade-in">
+<!-- 🚧 Under Development Notice Popup -->
+<div id="devPopup" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-4">
+    <div class="max-w-md w-full bg-slate-900 border border-skyblue-500/40 rounded-2xl p-6 shadow-2xl text-center space-y-4 relative">
         
         <!-- Icon -->
         <div class="w-14 h-14 mx-auto rounded-2xl bg-skyblue-500/15 border border-skyblue-500/30 flex items-center justify-center text-skyblue-400 text-2xl">
@@ -941,22 +941,21 @@
 
         <!-- Heading -->
         <div>
-            <span class="text-[10px] uppercase font-bold tracking-widest bg-skyblue-500/20 text-skyblue-400 px-2.5 py-1 rounded-full border border-skyblue-500/30">Active Development</span>
-            <h3 class="text-xl font-black text-white mt-2">Platform Under Improvement</h3>
+            <span class="text-[10px] uppercase font-bold tracking-widest bg-skyblue-500/20 text-skyblue-400 px-2.5 py-1 rounded-full border border-skyblue-500/30">Active Status</span>
+            <h3 class="font-orbitron font-black text-2xl sm:text-3xl text-white mt-3 uppercase tracking-wider text-skyblue-400">PRE REGISTRATION IS WORKING</h3>
         </div>
 
         <!-- Message -->
         <p class="text-xs text-slate-300 leading-relaxed">
-            MashupSquad is live and tournaments are fully functional! However, we are continuously adding new features and performance enhancements in the background. We apologize for any minor inconvenience caused during your visit.
+            MashupSquad is live and tournaments are fully functional! You can now successfully pre-register your squads for upcoming matches.
         </p>
 
         <!-- Action Button -->
-        <button onclick="closeDevPopup()" class="w-full py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-950 bg-skyblue-500 hover:bg-skyblue-400 transition shadow-lg shadow-skyblue-500/25">
-            Understood (Got It)
+        <button onclick="closeDevPopup()" class="w-full py-3 rounded-xl font-orbitron font-black text-xs uppercase tracking-wider text-slate-950 bg-skyblue-500 hover:bg-skyblue-400 transition shadow-lg shadow-skyblue-500/25">
+            UNDERSTOOD (GOT IT)
         </button>
     </div>
 </div>
-
 <!-- Script to handle Popup -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
