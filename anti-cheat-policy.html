@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anti-Cheat Policy | MASHUPSQUAD Esports Arena</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-primary: #070b14;
+      --bg-secondary: #0c1220;
+      --bg-card: #101829;
+      --border-color: #1e293b;
+      --accent-blue: #0ea5e9;
+      --accent-blue-hover: #0284c7;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    header {
+      background-color: rgba(7, 11, 20, 0.95);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      background-color: var(--accent-blue);
+      color: #070b14;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    .brand-text h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: var(--text-primary);
+    }
+
+    .brand-text h1 span {
+      color: var(--accent-blue);
+    }
+
+    .brand-text p {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+    }
+
+    .back-btn {
+      background-color: var(--accent-blue);
+      color: #070b14;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      letter-spacing: 0.5px;
+      transition: background-color 0.2s ease;
+    }
+
+    .back-btn:hover {
+      background-color: var(--accent-blue-hover);
+      color: #ffffff;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 48px auto;
+      padding: 0 24px;
+    }
+
+    .page-header {
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .badge {
+      display: inline-block;
+      background-color: rgba(14, 165, 233, 0.12);
+      color: var(--accent-blue);
+      border: 1px solid rgba(14, 165, 233, 0.3);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .page-header h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .last-updated {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .policy-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+
+    .policy-card h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 18px;
+      color: var(--accent-blue);
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .policy-card p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+
+    .policy-card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .policy-card ul {
+      list-style: none;
+      margin-top: 10px;
+    }
+
+    .policy-card ul li {
+      color: var(--text-secondary);
+      font-size: 15px;
+      padding-left: 20px;
+      position: relative;
+      margin-bottom: 8px;
+    }
+
+    .policy-card ul li::before {
+      content: "▸";
+      color: var(--accent-blue);
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+    }
+
+    footer {
+      background-color: var(--bg-secondary);
+      border-top: 1px solid var(--border-color);
+      padding: 32px 24px;
+      margin-top: 64px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    footer a {
+      color: var(--accent-blue);
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    @media (max-width: 600px) {
+      .page-header h2 {
+        font-size: 24px;
+      }
+      .policy-card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-logo">M</div>
+        <div class="brand-text">
+          <h1>MASHUP<span>SQUAD</span></h1>
+          <p>ESPORTS ARENA</p>
+        </div>
+      </a>
+      <a href="index.html" class="back-btn">← BACK TO HOME</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <span class="badge">Fair Play Standards</span>
+      <h2>ANTI-CHEAT POLICY</h2>
+      <p class="last-updated">Last Updated: November 2026 | MashupSquad Esports Arena</p>
+    </div>
+
+    <div class="policy-card">
+      <h3>1. Zero Tolerance for Cheating</h3>
+      <p>
+        <strong>MashupSquad Esports Arena</strong> is committed to fair, skill-based competition across all PUBG and Free Fire events. Any form of cheating, game tampering, or unfair advantage is strictly prohibited across all lobbies and matches.
+      </p>
+    </div>
+
+    <div class="policy-card">
+      <h3>2. Prohibited Practices</h3>
+      <ul>
+        <li><strong>Hacks &amp; Mods:</strong> Aimbot, ESP/wallhacks, no-recoil scripts, speed hacks, config edits, memory injectors, or modified game files.</li>
+        <li><strong>Teaming &amp; Collusion:</strong> Cooperating with opposing players or squads, intentionally feeding eliminations, or coordinating outside fair play.</li>
+        <li><strong>Exploits &amp; Stream Sniping:</strong> Abusing map/glitch exploits or watching active streams to gain live position information during a match.</li>
+        <li><strong>Unauthorized Devices &amp; Account Sharing:</strong> Using unapproved emulators/external triggers in mobile-only lobbies or playing on another registered player's slot.</li>
+      </ul>
+    </div>
+
+    <div class="policy-card">
+      <h3>3. Penalties &amp; Strict No-Refund Policy for Cheaters</h3>
+      <p>
+        To protect honest players and uphold tournament integrity, strict disciplinary actions apply to any participant or team found violating fair play rules:
+      </p>
+      <ul>
+        <li><strong>Immediate Disqualification:</strong> Any player or team caught cheating or violating fair play rules will be immediately disqualified from the ongoing match and entire tournament.</li>
+        <li><strong>No Refund / Forfeiture of Slot Contribution:</strong> Players or teams disqualified for cheating, hacking, teaming, or rule violations will <strong>NOT receive any refund</strong> under any circumstances. Their registration contribution is strictly forfeited.</li>
+        <li><strong>Forfeiture of Standings &amp; Rewards:</strong> All points, kills, placements, and reward eligibility earned by the offending player or team will be completely canceled and reassigned to fair competitors.</li>
+        <li><strong>Permanent Platform Ban:</strong> Confirmed cheaters will be permanently blacklisted from all future MashupSquad tournaments, scrims, and community lobbies.</li>
+      </ul>
+    </div>
+
+    <div class="policy-card">
+      <h3>4. Verification &amp; Reporting</h3>
+      <ul>
+        <li>Match administrators review spectator footage, gameplay clips, and player reports before finalizing standings.</li>
+        <li>Players suspected of unusual gameplay may be asked to provide hand-cam or screen-recording proof upon coordinator request.</li>
+        <li>To report a suspected violation during a match, send match details and video/screenshot evidence to <strong>mashupsquads@gmail.com</strong> or WhatsApp <strong>+92 (0) 335 2808861</strong>.</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 MASHUPSQUAD Esports Arena. All Rights Reserved.</p>
+    <p style="margin-top: 8px;">
+      <a href="index.html">Home</a> |
+      <a href="tournament-ruleset.html">Tournament Ruleset</a> |
+      <a href="anti-cheat-policy.html">Anti-Cheat Policy</a> |
+      <a href="privacy-policy.html">Privacy Policy</a> |
+      <a href="terms-of-service.html">Terms of Service</a>
+    </p>
+  </footer>
+
+</body>
+</html>
