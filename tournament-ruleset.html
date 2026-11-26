@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tournament Ruleset | MASHUPSQUAD Esports Arena</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-primary: #070b14;
+      --bg-secondary: #0c1220;
+      --bg-card: #101829;
+      --border-color: #1e293b;
+      --accent-blue: #0ea5e9;
+      --accent-blue-hover: #0284c7;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    header {
+      background-color: rgba(7, 11, 20, 0.95);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      background-color: var(--accent-blue);
+      color: #070b14;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    .brand-text h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: var(--text-primary);
+    }
+
+    .brand-text h1 span {
+      color: var(--accent-blue);
+    }
+
+    .brand-text p {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+    }
+
+    .back-btn {
+      background-color: var(--accent-blue);
+      color: #070b14;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      letter-spacing: 0.5px;
+      transition: background-color 0.2s ease;
+    }
+
+    .back-btn:hover {
+      background-color: var(--accent-blue-hover);
+      color: #ffffff;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 48px auto;
+      padding: 0 24px;
+    }
+
+    .page-header {
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .badge {
+      display: inline-block;
+      background-color: rgba(14, 165, 233, 0.12);
+      color: var(--accent-blue);
+      border: 1px solid rgba(14, 165, 233, 0.3);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .page-header h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .last-updated {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .policy-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+
+    .policy-card h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 18px;
+      color: var(--accent-blue);
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .policy-card p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+
+    .policy-card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .policy-card ul {
+      list-style: none;
+      margin-top: 10px;
+    }
+
+    .policy-card ul li {
+      color: var(--text-secondary);
+      font-size: 15px;
+      padding-left: 20px;
+      position: relative;
+      margin-bottom: 8px;
+    }
+
+    .policy-card ul li::before {
+      content: "▸";
+      color: var(--accent-blue);
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+    }
+
+    .points-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+
+    .points-table th,
+    .points-table td {
+      border: 1px solid var(--border-color);
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+    .points-table th {
+      background-color: var(--bg-secondary);
+      color: var(--accent-blue);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .points-table td {
+      color: var(--text-secondary);
+    }
+
+    footer {
+      background-color: var(--bg-secondary);
+      border-top: 1px solid var(--border-color);
+      padding: 32px 24px;
+      margin-top: 64px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    footer a {
+      color: var(--accent-blue);
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    @media (max-width: 600px) {
+      .page-header h2 {
+        font-size: 24px;
+      }
+      .policy-card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-logo">M</div>
+        <div class="brand-text">
+          <h1>MASHUP<span>SQUAD</span></h1>
+          <p>ESPORTS ARENA</p>
+        </div>
+      </a>
+      <a href="index.html" class="back-btn">← BACK TO HOME</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <span class="badge">Competition Format</span>
+      <h2>TOURNAMENT RULESET</h2>
+      <p class="last-updated">Last Updated: November 2026 | MashupSquad Esports Arena</p>
+    </div>
+
+    <div class="policy-card">
+      <h3>1. Supported Titles &amp; Match Modes</h3>
+      <p>
+        To keep rules consistent across events, <strong>PUBG</strong> and <strong>Free Fire</strong> follow a unified competitive system across multiple squad formats and game modes:
+      </p>
+      <ul>
+        <li><strong>Team Formats:</strong> Events may be hosted in <strong>Solo</strong>, <strong>Duo</strong>, or <strong>Squad</strong> formats depending on the tournament schedule.</li>
+        <li><strong>Points-Based Modes (Classic / Battle Royale):</strong> Classic / BR matches use a standardized Kill + Survival/Placement points system regardless of total lobby or team count.</li>
+        <li><strong>Direct Winner Modes (TDM / Clash Squad Style):</strong> TDM, Clash Squad (CS), or direct head-to-head/match-win formats do <strong>not</strong> use a points table—the match or bracket winner is declared as the <strong>Direct Winner</strong>.</li>
+      </ul>
+    </div>
+
+    <div class="policy-card">
+      <h3>2. Classic / BR Point System (PUBG &amp; Free Fire)</h3>
+      <p>
+        In all Classic / Battle Royale matches (Solo, Duo, or Squad), total score is calculated using <strong>Elimination Points + Survival/Placement Points</strong>:
+      </p>
+      <ul>
+        <li><strong>Elimination / Kill Points:</strong> <strong>1 point per kill</strong> (applies to every confirmed elimination regardless of total teams in the lobby).</li>
+        <li><strong>Survival / Placement Points:</strong> Awarded based on final placement/finish position as shown below (identical for both PUBG and Free Fire Classic/BR events).</li>
+      </ul>
+
+      <table class="points-table">
+        <thead>
+          <tr>
+            <th>Final Position / Rank</th>
+            <th>Survival / Placement Points</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1st Place (Winner)</td>
+            <td><strong>10 Points</strong></td>
+          </tr>
+          <tr>
+            <td>2nd Place</td>
+            <td><strong>6 Points</strong></td>
+          </tr>
+          <tr>
+            <td>3rd Place</td>
+            <td><strong>5 Points</strong></td>
+          </tr>
+          <tr>
+            <td>4th Place</td>
+            <td><strong>4 Points</strong></td>
+          </tr>
+          <tr>
+            <td>5th Place</td>
+            <td><strong>3 Points</strong></td>
+          </tr>
+          <tr>
+            <td>6th Place</td>
+            <td><strong>2 Points</strong></td>
+          </tr>
+          <tr>
+            <td>7th Place</td>
+            <td><strong>1 Point</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="policy-card">
+      <h3>3. Direct Winner Format (TDM &amp; CS Style)</h3>
+      <ul>
+        <li>In <strong>TDM</strong> (PUBG) or <strong>Clash Squad / CS</strong> (Free Fire) and similar direct match formats, no kill/placement points table is applied.</li>
+        <li>The winning player or team according to official match rules is recorded as the <strong>Direct Winner</strong> for that match or round.</li>
+      </ul>
+    </div>
+
+    <div class="policy-card">
+      <h3>4. Room Access, Punctuality &amp; Tie-Breakers</h3>
+      <ul>
+        <li>Custom room credentials are shared before match start; players must join on time so lobbies start smoothly.</li>
+        <li>In points-based events, ties on total points are broken by total eliminations, highest single-match placement, or final match finish.</li>
+        <li>Players should keep clear end-of-match screenshots/results ready in case verification is required.</li>
+      </ul>
+    </div>
+
+    <div class="policy-card">
+      <h3>5. Event Updates &amp; Support</h3>
+      <p>
+        Specific map settings, match counts, or lobby instructions for each event are shared through our official coordinator channel. For assistance, reach out at <strong>mashupsquads@gmail.com</strong> or WhatsApp <strong>+92 (0) 335 2808861</strong>.
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 MASHUPSQUAD Esports Arena. All Rights Reserved.</p>
+    <p style="margin-top: 8px;">
+      <a href="index.html">Home</a> |
+      <a href="tournament-ruleset.html">Tournament Ruleset</a> |
+      <a href="anti-cheat-policy.html">Anti-Cheat Policy</a> |
+      <a href="privacy-policy.html">Privacy Policy</a> |
+      <a href="terms-of-service.html">Terms of Service</a>
+    </p>
+  </footer>
+
+</body>
+</html>
