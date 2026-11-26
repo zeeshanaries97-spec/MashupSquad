@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy | MASHUPSQUAD Esports Arena</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-primary: #070b14;
+      --bg-secondary: #0c1220;
+      --bg-card: #101829;
+      --border-color: #1e293b;
+      --accent-blue: #0ea5e9;
+      --accent-blue-hover: #0284c7;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Navbar */
+    header {
+      background-color: rgba(7, 11, 20, 0.95);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      background-color: var(--accent-blue);
+      color: #070b14;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    .brand-text h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: var(--text-primary);
+    }
+
+    .brand-text h1 span {
+      color: var(--accent-blue);
+    }
+
+    .brand-text p {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+    }
+
+    .back-btn {
+      background-color: var(--accent-blue);
+      color: #070b14;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      letter-spacing: 0.5px;
+      transition: background-color 0.2s ease;
+    }
+
+    .back-btn:hover {
+      background-color: var(--accent-blue-hover);
+      color: #ffffff;
+    }
+
+    /* Main Content */
+    main {
+      max-width: 900px;
+      margin: 48px auto;
+      padding: 0 24px;
+    }
+
+    .page-header {
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .badge {
+      display: inline-block;
+      background-color: rgba(14, 165, 233, 0.12);
+      color: var(--accent-blue);
+      border: 1px solid rgba(14, 165, 233, 0.3);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .page-header h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .last-updated {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .policy-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+
+    .policy-card h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 18px;
+      color: var(--accent-blue);
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .policy-card p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+
+    .policy-card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .policy-card ul {
+      list-style: none;
+      margin-top: 10px;
+    }
+
+    .policy-card ul li {
+      color: var(--text-secondary);
+      font-size: 15px;
+      padding-left: 20px;
+      position: relative;
+      margin-bottom: 8px;
+    }
+
+    .policy-card ul li::before {
+      content: "▸";
+      color: var(--accent-blue);
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+    }
+
+    .contact-box {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 18px;
+      margin-top: 14px;
+    }
+
+    .contact-box p {
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: var(--text-primary);
+    }
+
+    .contact-box a {
+      color: var(--accent-blue);
+      text-decoration: none;
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--bg-secondary);
+      border-top: 1px solid var(--border-color);
+      padding: 32px 24px;
+      margin-top: 64px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    footer a {
+      color: var(--accent-blue);
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    @media (max-width: 600px) {
+      .page-header h2 {
+        font-size: 24px;
+      }
+      .policy-card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="brand">
+        <div class="brand-logo">M</div>
+        <div class="brand-text">
+          <h1>MASHUP<span>SQUAD</span></h1>
+          <p>ESPORTS ARENA</p>
+        </div>
+      </a>
+      <a href="index.html" class="back-btn">← BACK TO HOME</a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <div class="page-header">
+      <span class="badge">Legal &amp; Compliance</span>
+      <h2>PRIVACY POLICY</h2>
+      <p class="last-updated">Last Updated: November 2026 | MashupSquad Esports Arena</p>
+    </div>
+
+    <div class="policy-card">
+      <h3>1. Introduction</h3>
+      <p>
+        Welcome to <strong>MashupSquad Esports Arena</strong> (<code>mashupsquad.vercel.app</code>). We operate a community-driven competitive gaming platform in Pakistan organizing skill-based custom esports scrims and tournaments. Your privacy is important to us, and this Privacy Policy explains how we collect, use, and protect your information when you visit our website or register for an event.
+      </p>
+    </div>
+
+    <div class="policy-card">
+      <h3>2. Information We Collect</h3>
+      <p>When you reserve a tournament slot, subscribe to updates, or contact our support team, we may collect the following basic information:</p>
+      <ul>
+        <li><strong>Player Details:</strong> In-Game Name (IGN), Character ID / UID, and team or squad name.</li>
+        <li><strong>Contact Information:</strong> WhatsApp phone number and email address for sending custom room IDs, passwords, and match schedules.</li>
+        <li><strong>Technical &amp; Analytics Data:</strong> Anonymous website traffic metrics (such as page views, device type, and browser information) via Vercel Analytics and Google Search Console to improve website performance.</li>
+      </ul>
+    </div>
+
+    <div class="policy-card">
+      <h3>3. How We Use Your Information</h3>
+      <p>We strictly use your data for tournament operations and community communication:</p>
+      <ul>
+        <li>To verify player registrations and assign match slots in custom lobbies.</li>
+        <li>To share custom room credentials, match timings, and rule updates via WhatsApp or email.</li>
+        <li>To maintain fair play, prevent cheating, and verify match results.</li>
+        <li>To send important announcements if you subscribe to our community newsletter.</li>
+      </ul>
+    </div>
+
+    <div class="policy-card">
+      <h3>4. Data Sharing &amp; Security</h3>
+      <p>
+        We <strong>do not sell, rent, or trade</strong> your personal contact information (such as your WhatsApp number or email address) to third parties or external marketers. Only your public In-Game Name (IGN) or match standings may be displayed on lobby rosters, live streams, or winner announcements.
+      </p>
+      <p>
+        We take reasonable administrative and technical precautions to keep your registration records secure and accessible only to authorized tournament coordinators.
+      </p>
+    </div>
+
+    <div class="policy-card">
+      <h3>5. Third-Party Services</h3>
+      <p>
+        Our platform is hosted on Vercel and may include links to official community channels such as WhatsApp, Discord, YouTube, Instagram, Facebook, and TikTok. Please note that MashupSquad is an independent community esports organizer and is not directly affiliated with Krafton, Tencent, Garena, or any game publisher.
+      </p>
+    </div>
+
+    <div class="policy-card">
+      <h3>6. Your Rights &amp; Data Removal</h3>
+      <p>
+        You may request to update or delete your registration details or unsubscribe from tournament notifications at any time by reaching out to our support team.
+      </p>
+      <div class="contact-box">
+        <p><strong>MashupSquad Esports Arena</strong></p>
+        <p>Email: <a href="mailto:mashupsquads@gmail.com">mashupsquads@gmail.com</a></p>
+        <p>WhatsApp: <a href="https://wa.me/923352808861">+92 (0) 335 2808861</a></p>
+        <p>Location: Karachi, Pakistan</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 MASHUPSQUAD Esports Arena. All Rights Reserved.</p>
+    <p style="margin-top: 8px;">
+      <a href="index.html">Home</a> |
+      <a href="privacy-policy.html">Privacy Policy</a>
+    </p>
+  </footer>
+
+</body>
+</html>
